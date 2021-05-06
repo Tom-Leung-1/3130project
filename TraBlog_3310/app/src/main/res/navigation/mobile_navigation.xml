@@ -8,7 +8,7 @@
     <fragment
         android:id="@+id/nav_home"
         android:name="edu.cuhk.csci3310.trablog_3310.ui.home.HomeFragment"
-        android:label="@string/menu_home"
+        android:label="Travel Blogs"
         tools:layout="@layout/fragment_home" />
 
     <fragment
