@@ -22,7 +22,11 @@
             android:name=".BlogList"
             android:label="@string/title_activity_blog_list"
             android:theme="@style/Theme.TraBlog_3310.NoActionBar">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
 
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
             android:name=".ReplyPage"
@@ -42,6 +46,11 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".AccountSetting"
+            android:label="AccountSetting">
+
         </activity>
         <activity
             android:name=".ReplyList"

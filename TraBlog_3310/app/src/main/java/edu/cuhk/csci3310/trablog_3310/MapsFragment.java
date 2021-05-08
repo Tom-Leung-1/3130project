@@ -46,12 +46,12 @@ public class MapsFragment extends Fragment {
          * install it inside the SupportMapFragment. This method will only be triggered once the
          * user has installed Google Play services and returned to the app.
          */
-            if (!(android.os.Build.VERSION.SDK_INT >= Build.VERSION_CODES.M)) {
-                if (! (ContextCompat.checkSelfPermission(getActivity(),
-                        Manifest.permission.ACCESS_FINE_LOCATION)
-                        == PackageManager.PERMISSION_GRANTED)) {
-                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }}
+
+            if (! (ContextCompat.checkSelfPermission(getActivity(),
+                    Manifest.permission.ACCESS_FINE_LOCATION)
+                    == PackageManager.PERMISSION_GRANTED)) {
+                requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+            }
 
 
 

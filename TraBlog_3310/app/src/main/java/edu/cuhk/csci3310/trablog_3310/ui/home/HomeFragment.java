@@ -18,7 +18,9 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.LinkedList;
 
+import edu.cuhk.csci3310.trablog_3310.BlogDetail;
 import edu.cuhk.csci3310.trablog_3310.R;
+import edu.cuhk.csci3310.trablog_3310.ReplyPage;
 
 public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
@@ -50,7 +52,8 @@ public class HomeFragment extends Fragment {
         mlistener = new BlogListAdapter.RecyclerViewClickListener() {
             @Override
             public void onClick(View v, int position) { //test
-                Toast.makeText(getActivity(),"Hello ",Toast.LENGTH_SHORT).show();
+                Intent intent = new Intent(getActivity(), BlogDetail.class);
+                startActivity(intent);
             }
         };
         //test
