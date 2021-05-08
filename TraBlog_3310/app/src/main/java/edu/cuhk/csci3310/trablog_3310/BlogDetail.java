@@ -7,6 +7,7 @@ import android.view.View;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.navigation.NavController;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.AppBarConfiguration;
@@ -45,6 +46,19 @@ public class BlogDetail extends AppCompatActivity {
         mAdapter = new ReplyListAdapter(this, userList, commentList);
         mRecyclerView.setAdapter(mAdapter);
         mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+
+        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+        Intent intent = getIntent(); // get the intent message which is the position
+
+        MapsViewOnlyFragment mapFragment = new MapsViewOnlyFragment();
+        /*
+            Bundle bundle = new Bundle();
+            bundle.putString("position", arr[0]);
+            bundle.putString("show", arr[1]);
+            mapFragment.setArguments(bundle);
+         */
+        transaction.replace(R.id.map_viewonly_container, mapFragment, "map");
+        transaction.commit();
     }
 
 }

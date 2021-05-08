@@ -1,4 +1,4 @@
-package edu.cuhk.csci3310.trablog_3310.data;
+package edu.cuhk.csci3310.trablog_3310;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
