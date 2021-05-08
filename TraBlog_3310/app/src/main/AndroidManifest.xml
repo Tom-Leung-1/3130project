@@ -16,13 +16,18 @@
 
         </activity>
         <activity
-            android:name=".ReplyList"
-            android:label="ReplyList">
+            android:name=".BlogDetail"
+            android:label="BlogDetail">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".ReplyList"
+            android:label="ReplyList">
+
 
         </activity>
         <activity

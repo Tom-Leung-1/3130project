@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout  xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+    tools:context=".BlogDetail">
+
+    <androidx.core.widget.NestedScrollView
+        android:id="@+id/blog_details_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+            <TextView
+                android:id="@+id/blog_detail_title"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Title"
+                android:textSize="20sp">
+            </TextView>
+            <TextView
+                android:id="@+id/blog_detail_user"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="user"
+                android:textSize="18sp">
+            </TextView>
+            <TextView
+                android:id="@+id/blog_detail_description"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Description"
+                android:textSize="20sp">
+            </TextView>
+
+            <TextView
+                android:id="@+id/blog_detail_replies"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="Replies"
+                android:textSize="20sp">
+            </TextView>
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/blog_recyclerview"
+                android:background="@color/white"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent" />
+        </LinearLayout>
+    </androidx.core.widget.NestedScrollView>
+
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/comment_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_margin="@dimen/fab_margin"
+        app:srcCompat="@android:drawable/sym_action_chat" />
+
+</RelativeLayout>
