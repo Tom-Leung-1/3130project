@@ -24,6 +24,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import edu.cuhk.csci3310.trablog_3310.BlogList;
+import edu.cuhk.csci3310.trablog_3310.CreateAccount;
 import edu.cuhk.csci3310.trablog_3310.R;
 import edu.cuhk.csci3310.trablog_3310.ReplyPage;
 import edu.cuhk.csci3310.trablog_3310.ui.login.LoginViewModel;
@@ -43,6 +44,7 @@ public class LoginActivity extends AppCompatActivity {
         final EditText emailEditText = findViewById(R.id.email);
         final EditText passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
+        final Button signUpButton = findViewById(R.id.signUp);
 //        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
 
         loginButton.setOnClickListener(new View.OnClickListener() {
@@ -50,6 +52,14 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
 //                loadingProgressBar.setVisibility(View.VISIBLE);
                 validate(emailEditText.getText().toString(), passwordEditText.getText().toString());
+            }
+        });
+
+        signUpButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getApplicationContext(), CreateAccount.class);
+                startActivity(intent);
             }
         });
     }
