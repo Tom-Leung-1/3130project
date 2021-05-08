@@ -1,4 +1,4 @@
-package edu.cuhk.csci3310.trablog_3310.data;
+package edu.cuhk.csci3310.trablog_3310;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
@@ -9,11 +9,8 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.util.Log;
-import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
-
-import edu.cuhk.csci3310.trablog_3310.R;
 
 public class CreatePost extends AppCompatActivity {
     Fragment mapFragment;

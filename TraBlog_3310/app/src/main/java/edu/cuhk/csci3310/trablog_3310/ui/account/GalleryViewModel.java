@@ -1,4 +1,4 @@
-package edu.cuhk.csci3310.trablog_3310.ui.gallery;
+package edu.cuhk.csci3310.trablog_3310.ui.account;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
