@@ -24,7 +24,7 @@ public class HomeFragment extends Fragment {
     private RecyclerView mRecyclerView;
     private BlogListAdapter mAdapter;
     private BlogListAdapter.RecyclerViewClickListener mlistener;
-    private HomeViewModel homeViewModel;
+//    private HomeViewModel homeViewModel;
     private LinkedList<String> titleList = new java.util.LinkedList<>();
     private LinkedList<String> descList = new java.util.LinkedList<>();
 
