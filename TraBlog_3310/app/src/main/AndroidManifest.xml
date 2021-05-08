@@ -17,6 +17,7 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.TraBlog_3310">
 
+<<<<<<< HEAD
         <!--
              The API key for Google Maps-based APIs is defined as a string resource.
              (See the file "res/values/google_maps_api.xml").
@@ -35,6 +36,29 @@
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+=======
+        </activity>
+        <activity
+            android:name=".ReplyPage"
+            android:label="ReplyPage">
+
+        </activity>
+        <activity
+            android:name=".CreateAccount"
+            android:label="CreateAccount">
+
+        </activity>
+        <activity
+            android:name=".BlogDetail"
+            android:label="BlogDetail">
+
+        </activity>
+        <activity
+            android:name=".ReplyList"
+            android:label="ReplyList">
+
+
+>>>>>>> d5c557b7b276ddcf883f74bb9cc58685c02c0624
         </activity>
         <activity
             android:name=".BlogList"
@@ -45,7 +69,17 @@
             android:label="ReplyList" />
         <activity
             android:name=".ui.login.LoginActivity"
+<<<<<<< HEAD
             android:label="@string/app_name" />
+=======
+            android:label="@string/app_name">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+>>>>>>> d5c557b7b276ddcf883f74bb9cc58685c02c0624
     </application>
     <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>
 </manifest>
