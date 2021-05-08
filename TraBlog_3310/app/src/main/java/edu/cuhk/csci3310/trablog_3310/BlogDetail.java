@@ -1,5 +1,6 @@
 package edu.cuhk.csci3310.trablog_3310;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 
@@ -32,8 +33,8 @@ public class BlogDetail extends AppCompatActivity {
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
+                Intent intent = new Intent(getApplicationContext(), ReplyPage.class);
+                startActivity(intent);
             }
         });
         mRecyclerView = findViewById(R.id.blog_recyclerview);

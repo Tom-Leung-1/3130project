@@ -16,6 +16,11 @@
 
         </activity>
         <activity
+            android:name=".ReplyPage"
+            android:label="ReplyPage">
+
+        </activity>
+        <activity
             android:name=".BlogDetail"
             android:label="BlogDetail">
             <intent-filter>
