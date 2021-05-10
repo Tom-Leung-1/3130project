@@ -8,6 +8,7 @@ import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.POST;
+import retrofit2.http.Query;
 
 public interface RetrofitInterface {
     @POST("/user")
@@ -16,6 +17,13 @@ public interface RetrofitInterface {
     @POST("/user/create")
     Call<Void> executeSignUp(@Body HashMap<String, String> map);
 
+    @POST("/post/create")
+    Call<Void> executeSubmitPost(@Body HashMap<String, String> map);
+
     @GET("/post/allblogs")
     Call<ArrayList<Blog>> getAllBlogs();
+
+    @GET("/post/oneblog")
+    Call<Blog> getOneBlog(@Query("id") Integer id);
+
 }

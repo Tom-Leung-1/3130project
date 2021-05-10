@@ -25,21 +25,27 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.android.volley.Request;
-import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.android.volley.toolbox.JsonObjectRequest;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.HashMap;
 
+import edu.cuhk.csci3310.trablog_3310.ui.login.LoginActivity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
 import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
 
 
 public class CreatePost extends AppCompatActivity {
@@ -59,6 +65,9 @@ public class CreatePost extends AppCompatActivity {
     EditText contentInput;
     TextView latlngView;
 
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private String BASE_URL = "http://192.168.1.129:3001/";
 
     // Method for starting the activity for selecting image from phone storage
     public void pick(View view) {
@@ -173,7 +182,8 @@ public class CreatePost extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                uploadImage(v);
+                // uploadImage(v);
+                submitPost();
             }
         } );
 
@@ -182,6 +192,43 @@ public class CreatePost extends AppCompatActivity {
         //latlngView.getText().toString().split(";")[0] + latlngView.getText().toString().split(";")[1]
 
 
+    }
+
+    private void submitPost() {
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
+        HashMap<String, String> map = new HashMap<>();
+        map.put("title", titleInput.getText().toString());
+        map.put("description", contentInput.getText().toString());
+        Call<Void> call = retrofitInterface.executeSubmitPost(map);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(CreatePost.this, "Post submitted", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), BlogList.class);
+                    startActivity(intent);
+                }
+                else if (response.code() == 400){
+                    Toast.makeText(CreatePost.this, "Email/password is incorrect. Please refill the credentials", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(CreatePost.this, "Email/password is incorrect. Please refill the credentials", Toast.LENGTH_LONG).show();
+                }
+
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(CreatePost.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
     }
 
 }

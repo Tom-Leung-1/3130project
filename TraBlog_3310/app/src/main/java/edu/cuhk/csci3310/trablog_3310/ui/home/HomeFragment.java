@@ -82,6 +82,7 @@ public class HomeFragment extends Fragment {
             @Override
             public void onClick(View v, int position) { //test
                 Intent intent = new Intent(getActivity(), BlogDetail.class);
+                intent.putExtra("id", idList.get(position));
                 startActivity(intent);
             }
         };

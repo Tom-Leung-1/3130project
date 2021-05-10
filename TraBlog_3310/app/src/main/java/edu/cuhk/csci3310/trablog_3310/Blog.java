@@ -6,6 +6,7 @@ import java.util.LinkedList;
 public class Blog {
     private String title;
     private String description;
+    private String user;
     private Integer id;
 
     public String getTitle() {
@@ -14,6 +15,10 @@ public class Blog {
 
     public String getDescription() {
         return description;
+    }
+
+    public String getUser() {
+        return user;
     }
 
     public Integer getId() {
