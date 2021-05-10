@@ -20,9 +20,11 @@ public class BlogListAdapter extends Adapter<BlogListAdapter.BlogViewHolder>{
     private LayoutInflater mInflater;
     private final LinkedList<String> mTitleList;
     private final LinkedList<String> mDescList;
+    private final LinkedList<Integer> mIdList;
 
     class BlogViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener{
         TextView titleView, descriptionView;
+        Integer id;
         final BlogListAdapter mAdapter;
 
         public BlogViewHolder(View itemView, BlogListAdapter adapter) {
@@ -38,9 +40,10 @@ public class BlogListAdapter extends Adapter<BlogListAdapter.BlogViewHolder>{
             listener.onClick(v, getAdapterPosition());
         }
     }
-    public BlogListAdapter(Fragment fragment, LinkedList<String> titleList, LinkedList<String> descList, RecyclerViewClickListener listener) {
+    public BlogListAdapter(Fragment fragment, LinkedList<String> titleList, LinkedList<String> descList, LinkedList<Integer> idList, RecyclerViewClickListener listener) {
         this.fragment = fragment;
         mInflater = LayoutInflater.from(fragment.getActivity());
+        this.mIdList = idList;
         this.mTitleList = titleList;
         this.mDescList = descList;
         this.listener = listener;
@@ -60,6 +63,7 @@ public class BlogListAdapter extends Adapter<BlogListAdapter.BlogViewHolder>{
         final String desc = mDescList.get(position);
         holder.titleView.setText(title);
         holder.descriptionView.setText(desc);
+        holder.id = mIdList.get(position);
     }
     public long getItemId(int position) {
         return position;
