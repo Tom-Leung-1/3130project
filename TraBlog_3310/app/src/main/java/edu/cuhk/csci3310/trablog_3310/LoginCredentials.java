@@ -3,7 +3,7 @@ package edu.cuhk.csci3310.trablog_3310;
 public class LoginCredentials {
     private String email;
     private String username;
-    private String id;
+    private Integer id;
     private String errorMessage;
 
     public String getErrorMessage() {
@@ -18,7 +18,7 @@ public class LoginCredentials {
         return username;
     }
 
-    public String getMyID() {
+    public Integer getMyID() {
         return id;
     }
 }

@@ -22,7 +22,7 @@ public class BlogList extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private String username;
-    private String id;
+    private Integer id;
     private String email;
 
     @Override
@@ -30,7 +30,7 @@ public class BlogList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_list);
         Intent intent = getIntent();
-        id = intent.getStringExtra("id");
+        id = intent.getIntExtra("id", 0);
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -59,6 +59,10 @@ public class BlogList extends AppCompatActivity {
         final TextView emailView = (TextView) headerView.findViewById(R.id.emailView);
         userNameView.setText(username);
         emailView.setText(email);
+    }
+
+    public Integer getUserID() {
+        return id;
     }
 
     @Override

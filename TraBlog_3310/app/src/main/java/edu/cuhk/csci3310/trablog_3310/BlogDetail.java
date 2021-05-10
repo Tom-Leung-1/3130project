@@ -34,7 +34,7 @@ public class BlogDetail extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
     private String BASE_URL = "http://192.168.1.129:3001/";
-    private Integer id;
+    private Integer postID;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -56,6 +56,8 @@ public class BlogDetail extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ReplyPage.class);
+                intent.putExtra("postID", postID);
+
                 startActivity(intent);
             }
         });
@@ -82,8 +84,8 @@ public class BlogDetail extends AppCompatActivity {
         transaction.commit();
 
         Intent intent = getIntent();
-        id = intent.getIntExtra("id", 0);
-        Call<Blog> call = retrofitInterface.getOneBlog(id);
+        postID = intent.getIntExtra("postID", 0);
+        Call<Blog> call = retrofitInterface.getOneBlog(postID);
         AppCompatActivity act = this;
         call.enqueue(new Callback<Blog>() { // async method: will call onResponse once the response is return, but before that the program ones other code
             @Override
