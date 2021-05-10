@@ -1,12 +1,15 @@
 package edu.cuhk.csci3310.trablog_3310;
+import edu.cuhk.csci3310.trablog_3310.ui.login.LoginActivity;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.HashMap;
 import java.util.List;
 
 import okhttp3.MultipartBody;
 import okhttp3.ResponseBody;
 import retrofit2.Call;
+import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Multipart;
 import retrofit2.http.POST;
@@ -40,8 +43,11 @@ public class RetrofitClient {
 
 interface API {
 
-    @GET("fileUpload/")
-    Call<List<Image>> getImages();                                                                      // GET request to get all images
+    @POST("/user")
+    Call<LoginActivity> executeLogin(@Body HashMap<String, String> map);
+
+    @POST("/create")
+    Call<Void> executeSignUp(@Body HashMap<String, String> map);
 
     @GET("fileUpload/files/{filename}")                                                                 // GET request to get an image by its name
     @Streaming

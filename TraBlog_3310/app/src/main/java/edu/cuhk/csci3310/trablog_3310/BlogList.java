@@ -4,6 +4,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.view.Menu;
+import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -20,11 +21,18 @@ import androidx.appcompat.widget.Toolbar;
 public class BlogList extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
+    private String username;
+    private String id;
+    private String email;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_blog_list);
+        Intent intent = getIntent();
+        id = intent.getStringExtra("id");
+        username = intent.getStringExtra("username");
+        email = intent.getStringExtra("email");
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
@@ -46,6 +54,11 @@ public class BlogList extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
+        View headerView = navigationView.getHeaderView(0);
+        final TextView userNameView = (TextView) headerView.findViewById(R.id.userNameView);
+        final TextView emailView = (TextView) headerView.findViewById(R.id.emailView);
+        userNameView.setText(username);
+        emailView.setText(email);
     }
 
     @Override
@@ -56,7 +69,7 @@ public class BlogList extends AppCompatActivity {
     }
 
     @Override
-    public boolean onSupportNavigateUp() {
+    public boolean onSupportNavigateUp() { // when you click the nav menu, code runs
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();

@@ -1,48 +1,56 @@
 package edu.cuhk.csci3310.trablog_3310.ui.login;
 
-import android.app.Activity;
-
-import androidx.lifecycle.Observer;
-import androidx.lifecycle.ViewModelProvider;
-
 import android.content.Intent;
 import android.os.Bundle;
 
-import androidx.annotation.Nullable;
-import androidx.annotation.StringRes;
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.text.Editable;
-import android.text.TextWatcher;
-import android.view.KeyEvent;
 import android.view.View;
-import android.view.inputmethod.EditorInfo;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.ProgressBar;
-import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+
+import java.util.HashMap;
+
+// import edu.cuhk.csci3310.trablog_3310.API;
 import edu.cuhk.csci3310.trablog_3310.BlogList;
 import edu.cuhk.csci3310.trablog_3310.CreateAccount;
+import edu.cuhk.csci3310.trablog_3310.LoginCredentials;
 import edu.cuhk.csci3310.trablog_3310.R;
-import edu.cuhk.csci3310.trablog_3310.ReplyPage;
-import edu.cuhk.csci3310.trablog_3310.ui.login.LoginViewModel;
-import edu.cuhk.csci3310.trablog_3310.ui.login.LoginViewModelFactory;
+import edu.cuhk.csci3310.trablog_3310.RetrofitInterface;
+import retrofit2.Response;
+import retrofit2.Retrofit;
+import retrofit2.converter.gson.GsonConverterFactory;
+import retrofit2.Call;
+import retrofit2.Callback;
 
 public class LoginActivity extends AppCompatActivity {
 
-//    private LoginViewModel loginViewModel;
+    private EditText emailEditText;
+    private EditText passwordEditText;
+    private Retrofit retrofit;
+    private RetrofitInterface retrofitInterface;
+    private String BASE_URL = "http://192.168.1.129:3001/";
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-//        loginViewModel = new ViewModelProvider(this, new LoginViewModelFactory())
-//                .get(LoginViewModel.class);
+        Gson gson = new GsonBuilder()
+                .setLenient()
+                .create();
+        retrofit = new Retrofit.Builder()
+                .baseUrl(BASE_URL)
+                .addConverterFactory(GsonConverterFactory.create(gson))
+                .build();
+        retrofitInterface = retrofit.create(RetrofitInterface.class);
 
-        final EditText emailEditText = findViewById(R.id.email);
-        final EditText passwordEditText = findViewById(R.id.password);
+
+        emailEditText = findViewById(R.id.email);
+        passwordEditText = findViewById(R.id.password);
         final Button loginButton = findViewById(R.id.login);
         final Button signUpButton = findViewById(R.id.signUp);
 //        final ProgressBar loadingProgressBar = findViewById(R.id.loading);
@@ -50,8 +58,7 @@ public class LoginActivity extends AppCompatActivity {
         loginButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                loadingProgressBar.setVisibility(View.VISIBLE);
-                validate(emailEditText.getText().toString(), passwordEditText.getText().toString());
+                handleLogin();
             }
         });
 
@@ -60,6 +67,38 @@ public class LoginActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(getApplicationContext(), CreateAccount.class);
                 startActivity(intent);
+            }
+        });
+    }
+
+    public void handleLogin() {
+        HashMap<String, String> map = new HashMap<>();
+        map.put("email", emailEditText.getText().toString());
+        map.put("password", passwordEditText.getText().toString());
+        Call<LoginCredentials> call = retrofitInterface.executeLogin(map);
+        call.enqueue(new Callback<LoginCredentials>() {
+            @Override
+            public void onResponse(Call<LoginCredentials> call, Response<LoginCredentials> response) {
+                if (response.code() == 200) {
+                    LoginCredentials loginCredentials = response.body();
+                    Toast.makeText(LoginActivity.this, "Hello " + loginCredentials.getUsername() + "! Welcome back to TraBlog!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), BlogList.class);
+                    intent.putExtra("username", loginCredentials.getUsername());
+                    intent.putExtra("email", loginCredentials.getEmail());
+                    intent.putExtra("id", loginCredentials.getMyID());
+                    startActivity(intent);
+                }
+                else if (response.code() == 400){
+                    Toast.makeText(LoginActivity.this, "Email/password is incorrect. Please refill the credentials", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(LoginActivity.this, "Email/password is incorrect. Please refill the credentials", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<LoginCredentials> call, Throwable t) {
+                Toast.makeText(LoginActivity.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
     }
