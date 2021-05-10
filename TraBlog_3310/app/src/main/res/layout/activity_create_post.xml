@@ -88,10 +88,12 @@
         android:id="@+id/latlng"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="TextView"
+        android:text="22.302711;114.177216"
+        android:visibility="invisible"
         app:layout_constraintEnd_toEndOf="@+id/map_container"
         app:layout_constraintStart_toStartOf="@+id/map_container"
-        app:layout_constraintTop_toBottomOf="@+id/map_container" />
+        app:layout_constraintTop_toBottomOf="@+id/map_container"
+        tools:visibility="invisible" />
 
     <Button
         android:id="@+id/submitBtn"

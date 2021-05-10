@@ -13,6 +13,7 @@ import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.DocumentsContract;
 import android.provider.MediaStore;
 import android.text.Editable;
 import android.text.TextWatcher;
@@ -54,20 +55,22 @@ public class CreatePost extends AppCompatActivity {
     String content, title;
     private static final int PICK_IMAGE_REQUEST = 44;
     private static final int REQUEST_EXTERNAL_STORAGE = 1;
+
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
-            Manifest.permission.WRITE_EXTERNAL_STORAGE
+            Manifest.permission.WRITE_EXTERNAL_STORAGE,
+
     };
     ImageView imageView;
     Uri selectedImage;
-    String part_image;
+    String imagePath;
     EditText titleInput;
     EditText contentInput;
     TextView latlngView;
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String BASE_URL = "http://192.168.1.129:3001/";
+    private String BASE_URL = "https://api.yautz.com/";
 
     // Method for starting the activity for selecting image from phone storage
     public void pick(View view) {
@@ -81,18 +84,16 @@ public class CreatePost extends AppCompatActivity {
                     REQUEST_EXTERNAL_STORAGE
             );
         }
-        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT);
+        Intent photoPickerIntent = new Intent(Intent.ACTION_GET_CONTENT, android.provider.MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         photoPickerIntent.setType("image/*");
-        photoPickerIntent.setAction(Intent.ACTION_GET_CONTENT);
-        photoPickerIntent.putExtra(Intent.EXTRA_ALLOW_MULTIPLE, true);
-        startActivityForResult(photoPickerIntent, PICK_IMAGE_REQUEST);
+        startActivityForResult(Intent.createChooser(photoPickerIntent, "Open Gallery"), PICK_IMAGE_REQUEST);
     }
 
     // Method to get the absolute path of the selected image from its URI
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-        Log.d("debug", String.valueOf(data.getClipData().getItemCount()));
+//        Log.d("debug", String.valueOf(data.getClipData().getItemCount()));
         Log.d("debug", String.valueOf("@@@@"));
 
         // check data.getClipData() == null
@@ -100,14 +101,30 @@ public class CreatePost extends AppCompatActivity {
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
                 selectedImage = data.getData();                                                         // Get the image file URI
+
                 String[] imageProjection = {MediaStore.Images.Media.DATA};
+
                 Cursor cursor = getContentResolver().query(selectedImage, imageProjection, null, null, null);
-                if(cursor != null) {
+
+                if (cursor != null) {
                     cursor.moveToFirst();
                     int indexImage = cursor.getColumnIndex(imageProjection[0]);
-                    Log.d("debug", String.valueOf(cursor.getCount()));
+                    //int indexImage = cursor.getColumnIndexOrThrow( imageProjection[0] );
+                    cursor.moveToFirst();
 
-                    part_image = cursor.getString(indexImage);
+                    imagePath = cursor.getString(indexImage);
+                    cursor.moveToFirst();
+                    RealPathUtil rpu = new RealPathUtil();
+
+                    try {
+                        String filePath = rpu.getRealPath(getApplicationContext(), selectedImage);
+                        Log.d("debug", String.valueOf(filePath));
+
+                    }catch (Exception e){
+                        e.printStackTrace();
+                    }
+                    //part_image = cursor.getString(0);
+
                     Bitmap bitmap = null;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
@@ -123,10 +140,12 @@ public class CreatePost extends AppCompatActivity {
 
     }
 
+
+
     // Upload the image to the remote database
 
     public void uploadImage(View view) {
-        File imageFile = new File(part_image);                                                          // Create a file using the absolute path of the image
+        File imageFile = new File("123");                                                          // Create a file using the absolute path of the image
         RequestBody reqBody = RequestBody.create(MediaType.parse("multipart/form-file"), imageFile);
         MultipartBody.Part partImage = MultipartBody.Part.createFormData("file", imageFile.getName(), reqBody);
         API api = RetrofitClient.getInstance().getAPI();
@@ -139,7 +158,6 @@ public class CreatePost extends AppCompatActivity {
                     Toast.makeText(CreatePost.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
                 }
             }
-
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
                 Toast.makeText(CreatePost.this, "Request failed", Toast.LENGTH_SHORT).show();
@@ -206,6 +224,9 @@ public class CreatePost extends AppCompatActivity {
         HashMap<String, String> map = new HashMap<>();
         map.put("title", titleInput.getText().toString());
         map.put("description", contentInput.getText().toString());
+        // map.put("lat", latlngView.getText().toString().split(";")[0]);
+        // map.put("long", latlngView.getText().toString().split(";")[1]);
+
         Call<Void> call = retrofitInterface.executeSubmitPost(map);
         call.enqueue(new Callback<Void>() {
             @Override
