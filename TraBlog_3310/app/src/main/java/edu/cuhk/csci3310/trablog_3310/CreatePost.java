@@ -68,9 +68,14 @@ public class CreatePost extends AppCompatActivity {
     EditText contentInput;
     TextView latlngView;
 
+    private String username;
+    private Integer id;
+    private String email;
+
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "https://api.yautz.com/";
+    private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
 
     // Method for starting the activity for selecting image from phone storage
     public void pick(View view) {
@@ -172,7 +177,9 @@ public class CreatePost extends AppCompatActivity {
         setContentView(R.layout.activity_create_post);
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Intent intent = getIntent(); // get the intent message which is the position
-
+        id = intent.getIntExtra("id", 0);
+        username = intent.getStringExtra("username");
+        email = intent.getStringExtra("email");
         mapFragment = new MapsFragment();
         /*
             Bundle bundle = new Bundle();
@@ -217,7 +224,7 @@ public class CreatePost extends AppCompatActivity {
                 .setLenient()
                 .create();
         retrofit = new Retrofit.Builder()
-                .baseUrl(BASE_URL)
+                .baseUrl(LOCAL_BASE_URL) // changed
                 .addConverterFactory(GsonConverterFactory.create(gson))
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
@@ -234,6 +241,9 @@ public class CreatePost extends AppCompatActivity {
                 if (response.code() == 200) {
                     Toast.makeText(CreatePost.this, "Post submitted", Toast.LENGTH_LONG).show();
                     Intent intent = new Intent(getApplicationContext(), BlogList.class);
+                    intent.putExtra("username", username);
+                    intent.putExtra("email", email);
+                    intent.putExtra("id", id);
                     startActivity(intent);
                 }
                 else if (response.code() == 400){

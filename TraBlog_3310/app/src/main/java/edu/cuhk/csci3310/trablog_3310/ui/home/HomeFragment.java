@@ -49,21 +49,20 @@ public class HomeFragment extends Fragment {
     private Retrofit retrofit;
     private String BASE_URL = "http://192.168.1.129:3001/";
 
+    private Integer id;
+    private String username ;
+    private String email;
+
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
-//        homeViewModel =
-//                new ViewModelProvider(this).get(HomeViewModel.class);
         View root = inflater.inflate(R.layout.fragment_home, container, false);
-//        final TextView textView = root.findViewById(R.id.text_home);
-//        homeViewModel.getText().observe(getViewLifecycleOwner(), new Observer<String>() {
-//            @Override
-//            public void onChanged(@Nullable String s) {
-//                textView.setText(s);
-//            }
-//        });
-
-
+        getCredentials();
         return root;
+    }
+    public void getCredentials() {
+        id = ((BlogList) getActivity()).getUserID();
+        username = ((BlogList) getActivity()).getUsername();
+        email = ((BlogList) getActivity()).getEmail();
     }
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
@@ -84,6 +83,9 @@ public class HomeFragment extends Fragment {
                 Intent intent = new Intent(getActivity(), BlogDetail.class);
                 intent.putExtra("postID", idList.get(position));
                 intent.putExtra("userID", ((BlogList) getActivity()).getUserID());
+                intent.putExtra("id", id);
+                intent.putExtra("username", username);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         };

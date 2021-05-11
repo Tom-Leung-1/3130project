@@ -2,9 +2,11 @@ package edu.cuhk.csci3310.trablog_3310;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.view.View;
 import android.view.Menu;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.snackbar.Snackbar;
@@ -40,6 +42,9 @@ public class BlogList extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent (getApplicationContext(), CreatePost.class);
+                intent.putExtra("id", id);
+                intent.putExtra("username", username);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });
@@ -64,6 +69,12 @@ public class BlogList extends AppCompatActivity {
     public Integer getUserID() {
         return id;
     }
+    public String getUsername() {
+        return username;
+    }
+    public String getEmail() {
+        return email;
+    }
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -77,5 +88,30 @@ public class BlogList extends AppCompatActivity {
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
         return NavigationUI.navigateUp(navController, mAppBarConfiguration)
                 || super.onSupportNavigateUp();
+    }
+    boolean doubleBackToExitPressedOnce = false;
+
+    @Override
+    public void onBackPressed() {
+        if (doubleBackToExitPressedOnce) {
+            super.onBackPressed();
+            Intent intent = new Intent(Intent.ACTION_MAIN);
+            intent.addCategory(Intent.CATEGORY_HOME);
+            intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            startActivity(intent);
+            finish();
+            // return;
+        }
+
+        this.doubleBackToExitPressedOnce = true;
+        Toast.makeText(this, "Please click BACK again to exit", Toast.LENGTH_SHORT).show();
+
+        new Handler().postDelayed(new Runnable() {
+
+            @Override
+            public void run() {
+                doubleBackToExitPressedOnce=false;
+            }
+        }, 2000);
     }
 }

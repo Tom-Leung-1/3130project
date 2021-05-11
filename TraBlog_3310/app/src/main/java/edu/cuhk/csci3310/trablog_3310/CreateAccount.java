@@ -59,12 +59,18 @@ public class CreateAccount extends AppCompatActivity {
         map.put("email", email.getText().toString());
         map.put("password", password.getText().toString());
         map.put("username", userName.getText().toString());
-        Call<Void> call = retrofitInterface.executeSignUp(map);
-        call.enqueue(new Callback<Void>() {
+        Call<LoginCredentials> call = retrofitInterface.executeSignUp(map);
+        call.enqueue(new Callback<LoginCredentials>() {
             @Override
-            public void onResponse(Call<Void> call, Response<Void> response) {
+            public void onResponse(Call<LoginCredentials> call, Response<LoginCredentials> response) {
                 if (response.code() == 200) {
                     Toast.makeText(CreateAccount.this, "Account is created successfully", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), BlogList.class);
+                    LoginCredentials login = response.body();
+                    intent.putExtra("id", login.getMyID());
+                    intent.putExtra("username", login.getUsername());
+                    intent.putExtra("email", login.getEmail());
+                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(CreateAccount.this, "Username/Email has been used by another account. Please choose another one.", Toast.LENGTH_LONG).show();
@@ -72,7 +78,7 @@ public class CreateAccount extends AppCompatActivity {
             }
 
             @Override
-            public void onFailure(Call<Void> call, Throwable t) {
+            public void onFailure(Call<LoginCredentials> call, Throwable t) {
                 Toast.makeText(CreateAccount.this, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });

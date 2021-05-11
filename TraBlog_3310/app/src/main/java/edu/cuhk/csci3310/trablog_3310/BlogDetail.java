@@ -38,11 +38,18 @@ public class BlogDetail extends AppCompatActivity {
     private Integer postID;
     private Integer userID;
 
+    private Integer id;
+    private String username ;
+    private String email;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         postID = intent.getIntExtra("postID", 0);
         userID = intent.getIntExtra("userID", 0);
+        id = intent.getIntExtra("id", 0);
+        username = intent.getStringExtra("username");
+        email = intent.getStringExtra("email");
         setContentView(R.layout.activity_blog_detail);
         blogTitle = findViewById(R.id.blog_detail_title);
         blogDesc = findViewById(R.id.blog_detail_description);
@@ -63,6 +70,9 @@ public class BlogDetail extends AppCompatActivity {
                 Intent intent = new Intent(getApplicationContext(), ReplyPage.class);
                 intent.putExtra("postID", postID);
                 intent.putExtra("userID", userID);
+                intent.putExtra("id", id);
+                intent.putExtra("username", username);
+                intent.putExtra("email", email);
                 startActivity(intent);
             }
         });
@@ -140,6 +150,18 @@ public class BlogDetail extends AppCompatActivity {
         });
 
 
+    }
+
+    @Override
+    public void onBackPressed()
+    {
+        super.onBackPressed();
+        Intent intent = new Intent(getApplicationContext(), BlogList.class);
+        intent.putExtra("username", username);
+        intent.putExtra("email", email);
+        intent.putExtra("id", id);
+        startActivity(intent);
+        finish();
     }
 
 }

@@ -32,11 +32,18 @@ public class ReplyPage extends AppCompatActivity {
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http://192.168.1.129:3001/";
 
+    private Integer id;
+    private String username ;
+    private String email;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
         postID = intent.getIntExtra("postID", 0);
         userID = intent.getIntExtra("userID", 0);
+        id = intent.getIntExtra("id", 0);
+        username = intent.getStringExtra("username");
+        email = intent.getStringExtra("email");
         setContentView(R.layout.activity_reply_page);
 
         Gson gson = new GsonBuilder()
@@ -64,6 +71,13 @@ public class ReplyPage extends AppCompatActivity {
             public void onResponse(Call<Void> call, Response<Void> response) {
                 if (response.code() == 200) {
                     Toast.makeText(ReplyPage.this, "Reply is successfully submitted", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(getApplicationContext(), BlogDetail.class);
+                    intent.putExtra("postID", postID);
+                    intent.putExtra("userID", userID);
+                    intent.putExtra("id", id);
+                    intent.putExtra("username", username);
+                    intent.putExtra("email", email);
+                    startActivity(intent);
                 }
                 else {
                     Toast.makeText(ReplyPage.this, "Server Error", Toast.LENGTH_LONG).show();
