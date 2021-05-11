@@ -8,8 +8,10 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
 
-    <color name="colorGradientStart">#D9FF43</color>
-    <color name="colorGradientCenter">#F67831</color>
-    <color name="colorGradientEnd">#FF1493</color>
+    <color name="colorGradientStart">#56FF43</color>
+    <color name="colorGradientCenter">#31F6C8</color>
+    <color name="colorGradientEnd">#1457FF</color>
+
+    <color name="colorTransparent">#001457FF</color>
 
 </resources>

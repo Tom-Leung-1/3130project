@@ -1,13 +1,16 @@
 package edu.cuhk.csci3310.trablog_3310;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ScrollView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.recyclerview.widget.LinearLayoutManager;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
@@ -36,6 +39,8 @@ public class ReplyPage extends AppCompatActivity {
     private String username ;
     private String email;
 
+    AnimationDrawable gradientAnimation;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
@@ -45,6 +50,12 @@ public class ReplyPage extends AppCompatActivity {
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
         setContentView(R.layout.activity_reply_page);
+
+        ConstraintLayout myLayout = (ConstraintLayout) findViewById(R.id.reply_page);
+        gradientAnimation = (AnimationDrawable) myLayout.getBackground();
+        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setExitFadeDuration(5000);
+        gradientAnimation.start();
 
         Gson gson = new GsonBuilder()
                 .setLenient()

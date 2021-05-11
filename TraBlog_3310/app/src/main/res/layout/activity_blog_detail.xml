@@ -10,7 +10,8 @@
     <androidx.core.widget.NestedScrollView
         android:id="@+id/blog_details_scroll"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@drawable/gradient_animation">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -61,7 +62,7 @@
             </TextView>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/blog_recyclerview"
-                android:background="@color/white"
+                android:background="@null"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent" />
         </LinearLayout>
