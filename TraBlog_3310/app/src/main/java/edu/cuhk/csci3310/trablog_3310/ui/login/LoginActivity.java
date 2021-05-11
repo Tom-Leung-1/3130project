@@ -1,9 +1,12 @@
 package edu.cuhk.csci3310.trablog_3310.ui.login;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
+import android.graphics.drawable.TransitionDrawable;
 import android.os.Bundle;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import android.view.View;
 import android.widget.Button;
@@ -34,11 +37,19 @@ public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http://192.168.1.129:3001/";
+    AnimationDrawable gradientAnimation;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        ConstraintLayout myLayout = (ConstraintLayout) findViewById(R.id.container);
+        gradientAnimation = (AnimationDrawable) myLayout.getBackground();
+        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setExitFadeDuration(5000);
+        gradientAnimation.start();
+
 
         Gson gson = new GsonBuilder()
                 .setLenient()
