@@ -1,6 +1,7 @@
 package edu.cuhk.csci3310.trablog_3310;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -11,6 +12,7 @@ import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.DocumentsContract;
@@ -22,6 +24,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -59,7 +62,6 @@ public class CreatePost extends AppCompatActivity {
     private static String[] PERMISSIONS_STORAGE = {
             Manifest.permission.READ_EXTERNAL_STORAGE,
             Manifest.permission.WRITE_EXTERNAL_STORAGE,
-
     };
     ImageView imageView;
     Uri selectedImage;
@@ -75,7 +77,9 @@ public class CreatePost extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "https://api.yautz.com/";
-    private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
+    private String LOCAL_BASE_URL = "http://10.0.2.2:3001/";
+
+    AnimationDrawable gradientAnimation;
 
     // Method for starting the activity for selecting image from phone storage
     public void pick(View view) {
@@ -175,6 +179,12 @@ public class CreatePost extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
+        ScrollView myLayout = (ScrollView) findViewById(R.id.create_post);
+        gradientAnimation = (AnimationDrawable) myLayout.getBackground();
+        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setExitFadeDuration(5000);
+        gradientAnimation.start();
+
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Intent intent = getIntent(); // get the intent message which is the position
         id = intent.getIntExtra("id", 0);

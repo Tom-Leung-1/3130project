@@ -1,12 +1,15 @@
 package edu.cuhk.csci3310.trablog_3310;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
+import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -34,13 +37,16 @@ public class BlogDetail extends AppCompatActivity {
     private TextView user;
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
-    private String BASE_URL = "http://192.168.1.129:3001/";
+    private String BASE_URL = "http://10.0.2.2:3001/";
     private Integer postID;
     private Integer userID;
 
     private Integer id;
     private String username ;
     private String email;
+
+    AnimationDrawable gradientAnimation;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -51,6 +57,11 @@ public class BlogDetail extends AppCompatActivity {
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
         setContentView(R.layout.activity_blog_detail);
+        NestedScrollView myLayout = (NestedScrollView) findViewById(R.id.blog_details_scroll);
+        gradientAnimation = (AnimationDrawable) myLayout.getBackground();
+        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setExitFadeDuration(5000);
+        gradientAnimation.start();
         blogTitle = findViewById(R.id.blog_detail_title);
         blogDesc = findViewById(R.id.blog_detail_description);
         user = findViewById(R.id.blog_detail_user);

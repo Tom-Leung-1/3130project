@@ -1,6 +1,7 @@
 package edu.cuhk.csci3310.trablog_3310;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
@@ -8,6 +9,7 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.constraintlayout.widget.ConstraintLayout;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
@@ -28,11 +30,19 @@ public class CreateAccount extends AppCompatActivity {
     private Button signUpButton;
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String BASE_URL = "http://192.168.1.129:3001/";
+    private String BASE_URL = "http://10.0.2.2:3001/";
+    AnimationDrawable gradientAnimation;
 
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
+
+        ConstraintLayout myLayout = (ConstraintLayout) findViewById(R.id.create_account);
+        gradientAnimation = (AnimationDrawable) myLayout.getBackground();
+        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setExitFadeDuration(5000);
+        gradientAnimation.start();
+
         email = findViewById(R.id.sign_up_email);
         password = findViewById(R.id.sign_up_password);
         userName = findViewById(R.id.sign_up_username);

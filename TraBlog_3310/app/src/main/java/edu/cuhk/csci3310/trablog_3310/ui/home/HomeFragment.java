@@ -1,6 +1,7 @@
 package edu.cuhk.csci3310.trablog_3310.ui.home;
 
 import android.content.Intent;
+import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -10,6 +11,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.Observer;
 import androidx.lifecycle.ViewModelProvider;
@@ -47,11 +49,13 @@ public class HomeFragment extends Fragment {
     private LinkedList<Integer> idList = new java.util.LinkedList<>();
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
-    private String BASE_URL = "http://192.168.1.129:3001/";
+    private String BASE_URL = "http://10.0.2.2:3001/";
 
     private Integer id;
     private String username ;
     private String email;
+
+    AnimationDrawable gradientAnimation;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -66,6 +70,12 @@ public class HomeFragment extends Fragment {
     }
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+
+        ConstraintLayout myLayout = (ConstraintLayout) getView().findViewById(R.id.home_fragment);
+        gradientAnimation = (AnimationDrawable) myLayout.getBackground();
+        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setExitFadeDuration(5000);
+        gradientAnimation.start();
 
         Gson gson = new GsonBuilder()
                 .setLenient()
