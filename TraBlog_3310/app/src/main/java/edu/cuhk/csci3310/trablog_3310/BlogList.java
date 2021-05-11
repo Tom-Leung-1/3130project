@@ -35,8 +35,8 @@ public class BlogList extends AppCompatActivity {
         id = intent.getIntExtra("id", 0);
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
-        Toolbar toolbar = findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+//        Toolbar toolbar = findViewById(R.id.toolbar);
+//        setSupportActionBar(toolbar);
         FloatingActionButton fab = findViewById(R.id.fab);
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -59,7 +59,7 @@ public class BlogList extends AppCompatActivity {
                 .setDrawerLayout(drawer)
                 .build();
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment);
-        NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
+        //NavigationUI.setupActionBarWithNavController(this, navController, mAppBarConfiguration);
         NavigationUI.setupWithNavController(navigationView, navController);
         View headerView = navigationView.getHeaderView(0);
         final TextView userNameView = (TextView) headerView.findViewById(R.id.userNameView);
@@ -81,7 +81,7 @@ public class BlogList extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.blog_list, menu);
+        // getMenuInflater().inflate(R.menu.blog_list, menu);
         return true;
     }
 
