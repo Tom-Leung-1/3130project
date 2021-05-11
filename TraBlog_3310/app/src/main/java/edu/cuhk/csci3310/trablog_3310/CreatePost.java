@@ -74,8 +74,8 @@ public class CreatePost extends AppCompatActivity {
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String BASE_URL = "https://api.yautz.com/";
-    private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
+    private String LOCAL_BASE_URL = "https://api.yautz.com/";
+    //private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
 
     // Method for starting the activity for selecting image from phone storage
     public void pick(View view) {
@@ -231,8 +231,8 @@ public class CreatePost extends AppCompatActivity {
         HashMap<String, String> map = new HashMap<>();
         map.put("title", titleInput.getText().toString());
         map.put("description", contentInput.getText().toString());
-        // map.put("lat", latlngView.getText().toString().split(";")[0]);
-        // map.put("long", latlngView.getText().toString().split(";")[1]);
+        map.put("lat", latlngView.getText().toString().split(";")[0]);
+        map.put("long", latlngView.getText().toString().split(";")[1]);
 
         Call<Void> call = retrofitInterface.executeSubmitPost(map);
         call.enqueue(new Callback<Void>() {

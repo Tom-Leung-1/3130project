@@ -8,6 +8,8 @@ public class Blog {
     private String description;
     private String user;
     private Integer id;
+    private Double lat;
+    private Double lng;
 
     public String getTitle() {
         return title;
@@ -24,4 +26,10 @@ public class Blog {
     public Integer getId() {
         return id;
     }
+
+    public Double getLat() {
+        return lat;
+    }
+
+    public Double getLng() { return lng; }
 }

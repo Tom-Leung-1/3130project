@@ -43,10 +43,19 @@ public class MapsViewOnlyFragment extends Fragment {
              * install it inside the SupportMapFragment. This method will only be triggered once the
              * user has installed Google Play services and returned to the app.
              */
-            LatLng hk = new LatLng(22.302711, 114.177216);
-            googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hk, 12));
-            marker = googleMap.addMarker(new MarkerOptions().position(hk).title("HK!"));
+            Bundle bundle = getArguments();
+            if(bundle != null) {
+                Log.d("latlng", String.valueOf(bundle.getDouble("lat")));
+                Log.d("latlng", String.valueOf(bundle.getDouble("lng")));
 
+                LatLng hk = new LatLng(bundle.getDouble("lat"), bundle.getDouble("lng"));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hk, 12));
+                marker = googleMap.addMarker(new MarkerOptions().position(hk).title("Here!"));
+            }else{
+                LatLng hk = new LatLng(22.302711, 114.177216);
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hk, 12));
+                marker = googleMap.addMarker(new MarkerOptions().position(hk).title("HK!"));
+            }
         }
 
     };

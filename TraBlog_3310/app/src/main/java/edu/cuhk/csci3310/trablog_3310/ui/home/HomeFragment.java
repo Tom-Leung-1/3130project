@@ -47,7 +47,7 @@ public class HomeFragment extends Fragment {
     private LinkedList<Integer> idList = new java.util.LinkedList<>();
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
-    private String BASE_URL = "http://192.168.1.129:3001/";
+    private String BASE_URL = "http://10.0.2.2:3001/";
 
     private Integer id;
     private String username ;

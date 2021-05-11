@@ -2,6 +2,7 @@ package edu.cuhk.csci3310.trablog_3310;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -34,13 +35,17 @@ public class BlogDetail extends AppCompatActivity {
     private TextView user;
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
-    private String BASE_URL = "http://192.168.1.129:3001/";
+    private String BASE_URL = "http://10.0.2.2:3001/";
     private Integer postID;
     private Integer userID;
 
     private Integer id;
     private String username ;
     private String email;
+
+    private Double lat;
+    private Double lng;
+
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,6 +55,7 @@ public class BlogDetail extends AppCompatActivity {
         id = intent.getIntExtra("id", 0);
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
+
         setContentView(R.layout.activity_blog_detail);
         blogTitle = findViewById(R.id.blog_detail_title);
         blogDesc = findViewById(R.id.blog_detail_description);
@@ -94,9 +100,7 @@ public class BlogDetail extends AppCompatActivity {
             bundle.putString("show", arr[1]);
             mapFragment.setArguments(bundle);
         */
-        MapsViewOnlyFragment mapFragment = new MapsViewOnlyFragment();
-        transaction.replace(R.id.map_viewonly_container, mapFragment, "map");
-        transaction.commit();
+
 
 
         Call<Blog> call = retrofitInterface.getOneBlog(postID);
@@ -108,6 +112,17 @@ public class BlogDetail extends AppCompatActivity {
                     Blog blog = response.body();
                     blogTitle.setText(blog.getTitle());
                     blogDesc.setText(blog.getDescription());
+                    lat = blog.getLat();
+                    lng = (double)114.23;
+                    Log.d("latlng2", String.valueOf(lat));
+                    MapsViewOnlyFragment mapFragment = new MapsViewOnlyFragment();
+                    Bundle bundle = new Bundle();
+                    bundle.putDouble("lat", lat);
+                    bundle.putDouble("lng", lng);
+
+                    mapFragment.setArguments(bundle);
+                    transaction.replace(R.id.map_viewonly_container, mapFragment, "map");
+                    transaction.commit();
                     user.setText(blog.getUser());
                 }
                 else if (response.code() == 400){
