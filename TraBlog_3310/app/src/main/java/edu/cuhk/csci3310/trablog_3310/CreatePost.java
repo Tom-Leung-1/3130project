@@ -76,8 +76,8 @@ public class CreatePost extends AppCompatActivity {
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    private String LOCAL_BASE_URL = "https://api.yautz.com/";
-    //private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
+    //private String LOCAL_BASE_URL = "https://api.yautz.com/";
+    private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
 
 
     AnimationDrawable gradientAnimation;
@@ -181,6 +181,8 @@ public class CreatePost extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_post);
         ScrollView myLayout = (ScrollView) findViewById(R.id.create_post);
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
         gradientAnimation.setEnterFadeDuration(10);
         gradientAnimation.setExitFadeDuration(5000);

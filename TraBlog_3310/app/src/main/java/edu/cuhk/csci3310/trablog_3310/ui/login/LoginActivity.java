@@ -43,7 +43,8 @@ public class LoginActivity extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
-
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         ConstraintLayout myLayout = (ConstraintLayout) findViewById(R.id.container);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
         gradientAnimation.setEnterFadeDuration(10);

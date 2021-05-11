@@ -51,6 +51,9 @@ public class ReplyPage extends AppCompatActivity {
         email = intent.getStringExtra("email");
         setContentView(R.layout.activity_reply_page);
 
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
         ConstraintLayout myLayout = (ConstraintLayout) findViewById(R.id.reply_page);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
         gradientAnimation.setEnterFadeDuration(10);

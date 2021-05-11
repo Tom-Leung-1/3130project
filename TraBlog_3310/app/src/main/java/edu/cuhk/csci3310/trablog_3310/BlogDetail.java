@@ -60,6 +60,9 @@ public class BlogDetail extends AppCompatActivity {
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
 
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
+
         setContentView(R.layout.activity_blog_detail);
         NestedScrollView myLayout = (NestedScrollView) findViewById(R.id.blog_details_scroll);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();

@@ -36,7 +36,8 @@ public class CreateAccount extends AppCompatActivity {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_create_account);
-
+        View decorView = getWindow().getDecorView();
+        decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         ConstraintLayout myLayout = (ConstraintLayout) findViewById(R.id.create_account);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
         gradientAnimation.setEnterFadeDuration(10);
