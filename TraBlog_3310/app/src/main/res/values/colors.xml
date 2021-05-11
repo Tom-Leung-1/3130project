@@ -12,4 +12,6 @@
     <color name="colorGradientCenter">#31F6C8</color>
     <color name="colorGradientEnd">#1457FF</color>
 
+    <color name="colorTransparent">#001457FF</color>
+
 </resources>
