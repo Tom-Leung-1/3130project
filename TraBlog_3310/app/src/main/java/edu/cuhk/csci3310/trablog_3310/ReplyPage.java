@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -17,6 +18,8 @@ import com.google.gson.GsonBuilder;
 import java.util.HashMap;
 
 import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
@@ -32,7 +35,8 @@ public class ReplyPage extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         Intent intent = getIntent();
-        Integer id = intent.getIntExtra("id", 0);
+        postID = intent.getIntExtra("postID", 0);
+        userID = intent.getIntExtra("userID", 0);
         setContentView(R.layout.activity_reply_page);
 
         Gson gson = new GsonBuilder()
@@ -46,17 +50,31 @@ public class ReplyPage extends AppCompatActivity {
 
         reply = findViewById(R.id.reply);
         submit = findViewById(R.id.submit_reply);
-        submit.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                submitPost();
-            }
-        });
+        submit.setOnClickListener(v -> submitPost());
     }
 
     private void submitPost() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("email", reply.getText().toString());
+        map.put("content", reply.getText().toString());
+        map.put("post_id", postID.toString());
+        map.put("user_id", userID.toString());
+        Call<Void> call = retrofitInterface.createComment(map);
+        call.enqueue(new Callback<Void>() {
+            @Override
+            public void onResponse(Call<Void> call, Response<Void> response) {
+                if (response.code() == 200) {
+                    Toast.makeText(ReplyPage.this, "Reply is successfully submitted", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(ReplyPage.this, "Server Error", Toast.LENGTH_LONG).show();
+                }
+            }
+
+            @Override
+            public void onFailure(Call<Void> call, Throwable t) {
+                Toast.makeText(ReplyPage.this, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
         // map.put("password", passwordEditText.getText().toString());
         // Call<LoginCredentials> call = retrofitInterface.createComment(map);
     }

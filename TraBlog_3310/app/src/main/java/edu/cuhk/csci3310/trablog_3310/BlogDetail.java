@@ -15,6 +15,7 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
+import java.util.ArrayList;
 import java.util.LinkedList;
 
 import retrofit2.Call;
@@ -35,9 +36,13 @@ public class BlogDetail extends AppCompatActivity {
     private Retrofit retrofit;
     private String BASE_URL = "http://192.168.1.129:3001/";
     private Integer postID;
+    private Integer userID;
 
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        Intent intent = getIntent();
+        postID = intent.getIntExtra("postID", 0);
+        userID = intent.getIntExtra("userID", 0);
         setContentView(R.layout.activity_blog_detail);
         blogTitle = findViewById(R.id.blog_detail_title);
         blogDesc = findViewById(R.id.blog_detail_description);
@@ -57,18 +62,18 @@ public class BlogDetail extends AppCompatActivity {
             public void onClick(View view) {
                 Intent intent = new Intent(getApplicationContext(), ReplyPage.class);
                 intent.putExtra("postID", postID);
-
+                intent.putExtra("userID", userID);
                 startActivity(intent);
             }
         });
         mRecyclerView = findViewById(R.id.blog_recyclerview);
-        for (int i = 0; i < 50; i++){
-            userList.add("ABC");userList.add("DEF");
-            commentList.add("123");commentList.add("456");
-        }
-        mAdapter = new ReplyListAdapter(this, userList, commentList);
-        mRecyclerView.setAdapter(mAdapter);
-        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
+//        for (int i = 0; i < 50; i++){
+//            userList.add("ABC");userList.add("DEF");
+//            commentList.add("123");commentList.add("456");
+//        }
+//        mAdapter = new ReplyListAdapter(this, userList, commentList);
+//        mRecyclerView.setAdapter(mAdapter);
+//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
 
 
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
@@ -83,8 +88,7 @@ public class BlogDetail extends AppCompatActivity {
         transaction.replace(R.id.map_viewonly_container, mapFragment, "map");
         transaction.commit();
 
-        Intent intent = getIntent();
-        postID = intent.getIntExtra("postID", 0);
+
         Call<Blog> call = retrofitInterface.getOneBlog(postID);
         AppCompatActivity act = this;
         call.enqueue(new Callback<Blog>() { // async method: will call onResponse once the response is return, but before that the program ones other code
@@ -109,7 +113,31 @@ public class BlogDetail extends AppCompatActivity {
             }
         });
 
-
+        Call<ArrayList<Reply>> replyCall = retrofitInterface.getComments(postID);
+        replyCall.enqueue(new Callback<ArrayList<Reply>>() { // async method: will call onResponse once the response is return, but before that the program ones other code
+            @Override
+            public void onResponse(Call<ArrayList<Reply>> call, Response<ArrayList<Reply>> response) {
+                if (response.code() == 200) {
+                    for (Reply reply : response.body()) {
+                        userList.add(reply.getUser());
+                        commentList.add(reply.getContent());
+                    }
+                    mAdapter = new ReplyListAdapter(BlogDetail.this, userList, commentList);
+                    mRecyclerView.setAdapter(mAdapter);
+                    mRecyclerView.setLayoutManager(new LinearLayoutManager(BlogDetail.this));
+                }
+                else if (response.code() == 400){
+                    Toast.makeText(act, "Blog error", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    Toast.makeText(act, "Blogs error", Toast.LENGTH_LONG).show();
+                }
+            }
+            @Override
+            public void onFailure(Call<ArrayList<Reply>> call, Throwable t) {
+                Toast.makeText(act, t.getMessage(), Toast.LENGTH_LONG).show();
+            }
+        });
 
 
     }

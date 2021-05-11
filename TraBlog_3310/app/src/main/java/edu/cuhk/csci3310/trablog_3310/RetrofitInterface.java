@@ -26,7 +26,10 @@ public interface RetrofitInterface {
     @GET("/post/oneblog")
     Call<Blog> getOneBlog(@Query("id") Integer id);
 
-    @POST("/comment/create")
+    @POST("/comment/postComment")
     Call<Void> createComment(@Body HashMap<String, String> map);
+
+    @GET("/comment/getpostcomment")
+    Call<ArrayList<Reply>> getComments(@Query("post_id") Integer id);
 
 }
