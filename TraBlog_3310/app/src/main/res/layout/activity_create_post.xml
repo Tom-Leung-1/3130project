@@ -22,13 +22,12 @@
         android:id="@+id/titleInput"
         android:layout_width="0dp"
         android:layout_height="42dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="12dp"
-        android:layout_marginEnd="30dp"
         android:ems="10"
         android:inputType="textPersonName"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleView" />
 
@@ -36,11 +35,13 @@
         android:id="@+id/titleView"
         android:layout_width="0dp"
         android:layout_height="20dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="40dp"
         android:text="Title"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.045"
+
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
@@ -48,14 +49,13 @@
         android:id="@+id/contentInput"
         android:layout_width="0dp"
         android:layout_height="92dp"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="40dp"
-        android:layout_marginEnd="30dp"
         android:ems="10"
         android:gravity="start|top"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/titleInput" />
 
@@ -63,9 +63,11 @@
         android:id="@+id/textView4"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="30dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginEnd="15dp"
         android:layout_marginTop="8dp"
         android:text="Content"
+        android:textSize="18sp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
@@ -74,12 +76,9 @@
 
     <FrameLayout
         android:id="@+id/map_container"
-
-        android:layout_width="299dp"
-        android:layout_height="270dp"
+        android:layout_width="match_parent"
+        android:layout_height="400dp"
         android:layout_below="@+id/contentInput"
-        android:layout_marginStart="30dp"
-        android:layout_marginEnd="30dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/contentInput" />
