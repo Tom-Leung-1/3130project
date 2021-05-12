@@ -1,7 +1,6 @@
 package edu.cuhk.csci3310.trablog_3310;
 
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.core.app.ActivityCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
@@ -15,10 +14,7 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.AnimationDrawable;
 import android.net.Uri;
 import android.os.Bundle;
-import android.provider.DocumentsContract;
 import android.provider.MediaStore;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -28,19 +24,13 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import com.android.volley.Request;
-import com.android.volley.VolleyError;
-import com.android.volley.toolbox.JsonObjectRequest;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
-import org.json.JSONObject;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.HashMap;
 
-import edu.cuhk.csci3310.trablog_3310.ui.login.LoginActivity;
 import okhttp3.MediaType;
 import okhttp3.MultipartBody;
 import okhttp3.RequestBody;
@@ -65,7 +55,7 @@ public class CreatePost extends AppCompatActivity {
     };
     ImageView imageView;
     Uri selectedImage;
-    String imagePath;
+    String imagePath = "none";
     EditText titleInput;
     EditText contentInput;
     TextView latlngView;
@@ -77,8 +67,9 @@ public class CreatePost extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     //private String LOCAL_BASE_URL = "https://api.yautz.com/";
-    private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
-
+    //private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
+    private String LOCAL_BASE_URL = "http://10.0.2.2:3001/";
+    String iid = "-1";
 
     AnimationDrawable gradientAnimation;
 
@@ -126,21 +117,19 @@ public class CreatePost extends AppCompatActivity {
                     cursor.moveToFirst();
                     RealPathUtil rpu = new RealPathUtil();
 
-                    try {
-                        String filePath = rpu.getRealPath(getApplicationContext(), selectedImage);
-                        Log.d("debug", String.valueOf(filePath));
 
-                    }catch (Exception e){
-                        e.printStackTrace();
-                    }
+                    String filePath = rpu.getRealPath(getApplicationContext(), selectedImage);
+                    Log.d("debug", String.valueOf(filePath));
+
                     //part_image = cursor.getString(0);
-
+                    imagePath = filePath;
                     Bitmap bitmap = null;
                     try {
                         bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImage);
                     } catch (IOException e) {
                         e.printStackTrace();
                     }
+
                     imageView.setImageBitmap(bitmap);                                                       // Set the ImageView with the bitmap of the image
                 }
             }
@@ -154,18 +143,23 @@ public class CreatePost extends AppCompatActivity {
 
     // Upload the image to the remote database
 
-    public void uploadImage(View view) {
-        File imageFile = new File("123");                                                          // Create a file using the absolute path of the image
+    public void uploadImage() {
+        File imageFile = new File(imagePath);
         RequestBody reqBody = RequestBody.create(MediaType.parse("multipart/form-file"), imageFile);
         MultipartBody.Part partImage = MultipartBody.Part.createFormData("file", imageFile.getName(), reqBody);
+
+
         API api = RetrofitClient.getInstance().getAPI();
         Call<ResponseBody> upload = api.uploadImage(partImage);
-        upload.enqueue(new Callback<ResponseBody>() {
+        Log.d("img", "image");
 
+        upload.enqueue(new Callback<ResponseBody>() {
             @Override
-            public void onResponse(Call<ResponseBody> call, retrofit2.Response<ResponseBody> response) {
+            public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
                     Toast.makeText(CreatePost.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
+                    Log.d("img", response.message());
+                    iid = response.message();
                 }
             }
             @Override
@@ -173,6 +167,7 @@ public class CreatePost extends AppCompatActivity {
                 Toast.makeText(CreatePost.this, "Request failed", Toast.LENGTH_SHORT).show();
             }
         });
+
     }
 
 
@@ -206,9 +201,9 @@ public class CreatePost extends AppCompatActivity {
          titleInput = (EditText)findViewById(R.id.titleInput);
          contentInput = (EditText)findViewById(R.id.contentInput);
          latlngView = (TextView)findViewById(R.id.latlng);
-        imageView = (ImageView) findViewById(R.id.photo);
-        Button selPhoto = (Button) findViewById(R.id.select_photo);
-        Button send = (Button) findViewById(R.id.submitBtn);
+         imageView = (ImageView) findViewById(R.id.photo);
+         Button selPhoto = (Button) findViewById(R.id.select_photo);
+         Button send = (Button) findViewById(R.id.submitBtn);
 
         selPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -220,15 +215,11 @@ public class CreatePost extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                // uploadImage(v);
+                if(imagePath != "none")
+                    uploadImage();
                 submitPost();
             }
         } );
-
-        //                title = titleInput.getText().toString();
-        //                content = contentInput.getText().toString();
-        //latlngView.getText().toString().split(";")[0] + latlngView.getText().toString().split(";")[1]
-
 
     }
 
@@ -245,7 +236,7 @@ public class CreatePost extends AppCompatActivity {
         map.put("title", titleInput.getText().toString());
         map.put("description", contentInput.getText().toString());
         map.put("lat", latlngView.getText().toString().split(";")[0]);
-        map.put("long", latlngView.getText().toString().split(";")[1]);
+        map.put("lng", latlngView.getText().toString().split(";")[1]);
 
         Call<Void> call = retrofitInterface.executeSubmitPost(map);
         call.enqueue(new Callback<Void>() {
@@ -257,6 +248,7 @@ public class CreatePost extends AppCompatActivity {
                     intent.putExtra("username", username);
                     intent.putExtra("email", email);
                     intent.putExtra("id", id);
+                    intent.putExtra("imageId", iid);
                     startActivity(intent);
                 }
                 else if (response.code() == 400){
@@ -265,7 +257,6 @@ public class CreatePost extends AppCompatActivity {
                 else {
                     Toast.makeText(CreatePost.this, "Email/password is incorrect. Please refill the credentials", Toast.LENGTH_LONG).show();
                 }
-
             }
 
             @Override

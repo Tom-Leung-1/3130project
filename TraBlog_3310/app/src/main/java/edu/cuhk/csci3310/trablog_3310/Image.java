@@ -5,8 +5,13 @@ public class Image {
 
     private String name;
     private String url;
+    private String imageId;
 
     public Image() { }
+
+    public String getUrl() {
+        return url;
+    }
 
     public Image(String name, String url) {
         this.name = name;
@@ -21,8 +26,8 @@ public class Image {
         this.name = name;
     }
 
-    public String getUrl() {
-        return url;
+    public String getImageId() {
+        return imageId;
     }
 
     public void setUrl(String url) {

@@ -43,12 +43,6 @@ public class RetrofitClient {
 
 interface API {
 
-    @POST("/user")
-    Call<LoginActivity> executeLogin(@Body HashMap<String, String> map);
-
-    @POST("/create")
-    Call<Void> executeSignUp(@Body HashMap<String, String> map);
-
     @GET("fileUpload/files/{filename}")                                                                 // GET request to get an image by its name
     @Streaming
     Call<ResponseBody> getImageByName(@Path("filename") String name);
