@@ -13,5 +13,6 @@
     <color name="colorGradientEnd">#1457FF</color>
 
     <color name="colorTransparent">#001457FF</color>
+    <color name="colorSemiWhite">#66FFFFFF</color>
 
 </resources>

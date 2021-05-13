@@ -35,9 +35,11 @@
 
     <Button
         android:id="@+id/submit_reply"
-        android:layout_width="wrap_content"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginEnd="24dp"
+        android:background="@drawable/custom_button"
+        android:layout_marginEnd="48dp"
+        android:layout_marginStart="48dp"
         android:textAllCaps="false"
         android:text="Submit Reply"
         app:layout_constraintEnd_toEndOf="parent"

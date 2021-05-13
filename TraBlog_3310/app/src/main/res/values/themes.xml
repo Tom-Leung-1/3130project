@@ -2,7 +2,7 @@
     <!-- Base application theme. -->
     <style name="Theme.TraBlog_3310" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/purple_500</item>
+        <item name="colorPrimary">@color/colorTransparent</item>
         <item name="colorPrimaryVariant">@color/colorTransparent</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
