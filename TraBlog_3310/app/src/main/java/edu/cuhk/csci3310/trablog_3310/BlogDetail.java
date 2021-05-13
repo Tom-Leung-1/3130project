@@ -194,6 +194,7 @@ public class BlogDetail extends AppCompatActivity {
         refresh_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                /*
                 Intent intent = new Intent(getApplication(), BlogDetail.class);
                 intent.putExtra("postID", postID);
                 intent.putExtra("userID", userID);
@@ -203,6 +204,35 @@ public class BlogDetail extends AppCompatActivity {
                 finish();
                 startActivity(intent);
                 overridePendingTransition(0, 0);
+                 */
+                Call<ArrayList<Reply>> replyCall = retrofitInterface.getComments(postID);
+                replyCall.enqueue(new Callback<ArrayList<Reply>>() { // async method: will call onResponse once the response is return, but before that the program ones other code
+                    @Override
+                    public void onResponse(Call<ArrayList<Reply>> call, Response<ArrayList<Reply>> response) {
+                        if (response.code() == 200) {
+                            userList.clear();
+                            commentList.clear();
+
+                            for (Reply reply : response.body()) {
+                                userList.add(reply.getUser());
+                                commentList.add(reply.getContent());
+                            }
+                            mAdapter = new ReplyListAdapter(BlogDetail.this, userList, commentList);
+                            mRecyclerView.setAdapter(mAdapter);
+                            mRecyclerView.setLayoutManager(new LinearLayoutManager(BlogDetail.this));
+                        }
+                        else if (response.code() == 400){
+                            Toast.makeText(act, "Blog error", Toast.LENGTH_LONG).show();
+                        }
+                        else {
+                            Toast.makeText(act, "Blogs error", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                    @Override
+                    public void onFailure(Call<ArrayList<Reply>> call, Throwable t) {
+                        Toast.makeText(act, t.getMessage(), Toast.LENGTH_LONG).show();
+                    }
+                });
             }
         });
 
