@@ -336,7 +336,7 @@ public class CreatePost extends AppCompatActivity {
             map.put("lat", latlngView.getText().toString().split(";")[0]);
             map.put("lng", latlngView.getText().toString().split(";")[1]);
         }
-        if(iid == "none") {
+        if(iid != "none") {
             map.put("img", iid);
             Log.d("img", "iid != noen");
             Log.d("img3inside if", iid);

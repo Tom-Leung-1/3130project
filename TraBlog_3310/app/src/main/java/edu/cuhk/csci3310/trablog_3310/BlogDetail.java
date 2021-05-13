@@ -119,12 +119,13 @@ public class BlogDetail extends AppCompatActivity {
             @Override
             public void onResponse(Call<Blog> call, Response<Blog> response) {
                 if (response.code() == 200) {
+                    //Log.d("fetched!","123");
                     Blog blog = response.body();
                     blogTitle.setText(blog.getTitle());
                     blogDesc.setText(blog.getDescription());
                     user.setText(blog.getUsername());
-                    if(blog.getImgFileName() != "none"){
-                        Log.d("img2", (String) blog.getImgFileName());
+                    Log.d("imgName", String.valueOf(blog.getImgFileName()));
+                    if(blog.getImgFileName() != "none" && blog.getImgFileName() != "null" && !Objects.isNull(blog.getImgFileName())){
                         imageWebView.setVisibility(View.VISIBLE);
                         imageWebView.getSettings().setJavaScriptEnabled(true);
                         imageWebView.loadUrl("https://api.yautz.com/uploads/" + blog.getImgFileName());

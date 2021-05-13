@@ -10,7 +10,7 @@ public class Blog {
     private Integer id;
     private Double lat;
     private Double lng;
-    private Double img;
+    private String img;
 
     public String getTitle() {
         return title;
@@ -34,5 +34,5 @@ public class Blog {
 
     public Double getLng() { return lng; }
 
-    public Object getImgFileName() { return img;}
+    public String getImgFileName() { return img;}
 }
