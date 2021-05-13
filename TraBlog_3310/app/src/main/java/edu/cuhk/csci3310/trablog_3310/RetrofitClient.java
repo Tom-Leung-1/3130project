@@ -1,3 +1,9 @@
+//citation:
+//this class is from the internet https://medium.com/javarevisited/lets-develop-an-android-app-to-upload-files-and-images-on-cloud-f9670d812060
+//Jan 13 · 6 min read
+//
+//Nil Madhab
+
 package edu.cuhk.csci3310.trablog_3310;
 import edu.cuhk.csci3310.trablog_3310.ui.login.LoginActivity;
 import retrofit2.Retrofit;
