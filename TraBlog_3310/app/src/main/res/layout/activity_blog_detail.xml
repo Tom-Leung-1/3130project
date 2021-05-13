@@ -56,6 +56,24 @@
                 android:textSize="18sp">
             </TextView>
 
+            <WebView
+                android:id="@+id/imageWebView"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                tools:ignore="WebViewLayout" />
+            <FrameLayout
+                android:id="@+id/map_viewonly_container"
+                android:layout_marginTop="8dp"
+                android:layout_marginStart="15dp"
+                android:layout_marginEnd="15dp"
+                android:layout_width="match_parent"
+                android:layout_height="400dp"
+                android:layout_below="@+id/contentInput"
+                android:visibility="gone"
+                />
             <TextView
                 android:id="@+id/blog_detail_description"
                 android:layout_width="match_parent"
@@ -67,16 +85,7 @@
                 android:layout_marginEnd="15dp"
                 android:textSize="15sp">
             </TextView>
-            <FrameLayout
-                android:id="@+id/map_viewonly_container"
-                android:layout_marginTop="8dp"
-                android:layout_marginStart="15dp"
-                android:layout_marginEnd="15dp"
-                android:layout_width="match_parent"
-                android:layout_height="400dp"
-                android:layout_below="@+id/contentInput"
-                android:visibility="gone"
-                />
+
 
             <TextView
                 android:id="@+id/blog_detail_replies"

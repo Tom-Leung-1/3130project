@@ -2,12 +2,14 @@ package edu.cuhk.csci3310.trablog_3310;
 
 import android.content.Intent;
 import android.graphics.drawable.AnimationDrawable;
+import android.os.Build;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.webkit.WebSettings;
+import android.webkit.WebView;
 import android.widget.Button;
 import android.widget.FrameLayout;
-import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -38,11 +40,13 @@ public class BlogDetail extends AppCompatActivity {
     private LinkedList<String> commentList = new java.util.LinkedList<>();
     private TextView blogTitle;
     private TextView blogDesc;
+    private WebView imageWebView;
     private Button user;
     private FrameLayout mapView;
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
     private String BASE_URL = "http://10.0.2.2:3001/";
+    //private String BASE_URL = "http://192.168.1.104:3001/";
     private Integer postID;
     private Integer userID;
 
@@ -63,6 +67,7 @@ public class BlogDetail extends AppCompatActivity {
         id = intent.getIntExtra("id", 0);
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
+        email = intent.getStringExtra("email");
 
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
@@ -77,6 +82,7 @@ public class BlogDetail extends AppCompatActivity {
         blogTitle = findViewById(R.id.blog_detail_title);
         blogDesc = findViewById(R.id.blog_detail_description);
         user = findViewById(R.id.blog_detail_user);
+        imageWebView = findViewById(R.id.imageWebView);
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -100,23 +106,8 @@ public class BlogDetail extends AppCompatActivity {
             }
         });
         mRecyclerView = findViewById(R.id.blog_recyclerview);
-//        for (int i = 0; i < 50; i++){
-//            userList.add("ABC");userList.add("DEF");
-//            commentList.add("123");commentList.add("456");
-//        }
-//        mAdapter = new ReplyListAdapter(this, userList, commentList);
-//        mRecyclerView.setAdapter(mAdapter);
-//        mRecyclerView.setLayoutManager(new LinearLayoutManager(this));
-
-
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
-        // Intent intent = getIntent(); // get the intent message which is the position
-        /*
-            Bundle bundle = new Bundle();
-            bundle.putString("position", arr[0]);
-            bundle.putString("show", arr[1]);
-            mapFragment.setArguments(bundle);
-        */
+
 
 
 
@@ -130,6 +121,20 @@ public class BlogDetail extends AppCompatActivity {
                     blogTitle.setText(blog.getTitle());
                     blogDesc.setText(blog.getDescription());
                     user.setText(blog.getUsername());
+                   // if(!Objects.isNull(blog.getImgFileName())){
+                        Log.d("img", "download");
+
+                    imageWebView.getSettings().setJavaScriptEnabled(true);
+                        //imageWebView.loadUrl("https://api.yautz.com/uploads/" + blog.getImgFileName());
+                    imageWebView.getSettings().setLoadWithOverviewMode(true);
+                    imageWebView.getSettings().setUseWideViewPort(true);
+                    imageWebView.loadUrl("https://api.yautz.com/uploads/file-1620835253318.jpg");
+
+                    // imageWebView.loadUrl("http://10.0.2.2:3001/" + blog.getImgFileName());
+                       // imageWebView.loadUrl("C:\\Users\\fung\\Desktop\\3310backend_tom\\travalfree\\uploads\\" + "file-1620915495127.jpg");
+
+                   // }
+
                     if (!Objects.isNull(blog.getLat())) {
                         lat = blog.getLat();
                         lng = blog.getLng();

@@ -49,11 +49,11 @@ public class MapsViewOnlyFragment extends Fragment {
                 Log.d("latlng", String.valueOf(bundle.getDouble("lng")));
 
                 LatLng hk = new LatLng(bundle.getDouble("lat"), bundle.getDouble("lng"));
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hk, 12));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hk, 14));
                 marker = googleMap.addMarker(new MarkerOptions().position(hk).title("Here!"));
             }else{
                 LatLng hk = new LatLng(22.302711, 114.177216);
-                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hk, 12));
+                googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(hk, 14));
                 marker = googleMap.addMarker(new MarkerOptions().position(hk).title("HK!"));
             }
         }

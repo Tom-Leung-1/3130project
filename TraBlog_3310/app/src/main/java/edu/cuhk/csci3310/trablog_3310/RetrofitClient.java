@@ -25,6 +25,7 @@ import retrofit2.http.Streaming;
 
 public class RetrofitClient {
     private  static final String BASE_URL = "http://10.0.2.2:3001/";                         // Base URL changed
+    //private String BASE_URL = "http://192.168.1.104:3001/";
     private static RetrofitClient mInstance;
     private Retrofit retrofit;
 

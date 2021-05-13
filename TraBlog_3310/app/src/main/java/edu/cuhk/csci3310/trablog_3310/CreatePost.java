@@ -69,12 +69,16 @@ public class CreatePost extends AppCompatActivity {
 
     private String finalTitle;
     private String finalDescription;
+    private boolean isOpen = false;
+    private boolean isOpenImage = false;
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     //private String LOCAL_BASE_URL = "https://api.yautz.com/";
     //private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
     private String LOCAL_BASE_URL = "http://10.0.2.2:3001/";
+    //private String LOCAL_BASE_URL = "http://192.168.1.104:3001/";
+
     String iid = "-1";
 
     AnimationDrawable gradientAnimation;
@@ -102,6 +106,7 @@ public class CreatePost extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
 //        Log.d("debug", String.valueOf(data.getClipData().getItemCount()));
         Log.d("debug", String.valueOf("@@@@"));
+        imageView.setVisibility(View.VISIBLE);
 
         // check data.getClipData() == null
 
@@ -138,6 +143,7 @@ public class CreatePost extends AppCompatActivity {
                     }
 
                     imageView.setImageBitmap(bitmap);                                                       // Set the ImageView with the bitmap of the image
+                    isOpenImage = true;
                 }
             }
         }
@@ -151,7 +157,7 @@ public class CreatePost extends AppCompatActivity {
     // Upload the image to the remote database
 
     public void uploadImage() {
-        imagePath = "/storage/emulated/0/DCIM/Camera/IMG_20210512_231820.jpg";
+        //imagePath = "/storage/emulated/0/DCIM/Camera/IMG_20210512_231820.jpg";
         File imageFile = new File(imagePath);
         RequestBody reqBody = RequestBody.create(MediaType.parse("multipart/form-file"), imageFile);
         MultipartBody.Part partImage = MultipartBody.Part.createFormData("file", imageFile.getName(), reqBody);
@@ -221,7 +227,10 @@ public class CreatePost extends AppCompatActivity {
                     requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
                 }
                 else {
-                    openMap();
+                    if(!isOpen)
+                        openMap();
+                    else
+                        closeMap();
                 }
             }
         });
@@ -229,7 +238,10 @@ public class CreatePost extends AppCompatActivity {
         selPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                pick(v);
+                if(!isOpenImage)
+                    pick(v);
+                else
+                    notPick();
             }
         } );
 
@@ -242,7 +254,7 @@ public class CreatePost extends AppCompatActivity {
                     Toast.makeText(CreatePost.this, "Title and Description cannot be empty! Please fill in the details.", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    if(imagePath != "none")
+                    if(imagePath != "none" && isOpenImage)
                         uploadImage();
                     submitPost();
                 }
@@ -250,12 +262,27 @@ public class CreatePost extends AppCompatActivity {
         } );
 
     }
+    public void notPick() {
+        isOpenImage = false;
+        imageView.setVisibility(View.GONE);
+    }
+
+    public void closeMap() {
+        FrameLayout map = findViewById(R.id.map_container);
+        if (map.getVisibility() == View.VISIBLE) {
+            isOpen = false;
+            map.setVisibility(View.GONE);
+            //FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+            //mapFragment = new MapsFragment();
+        }
+    }
 
     public void openMap() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             FrameLayout map = findViewById(R.id.map_container);
             if (map.getVisibility() != View.VISIBLE) {
+                isOpen = true;
                 map.setVisibility(View.VISIBLE);
                 FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
                 mapFragment = new MapsFragment();
@@ -292,7 +319,7 @@ public class CreatePost extends AppCompatActivity {
         map.put("title", finalTitle);
         map.put("description", finalDescription);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
-                == PackageManager.PERMISSION_GRANTED) {
+                == PackageManager.PERMISSION_GRANTED && isOpen) {
             map.put("lat", latlngView.getText().toString().split(";")[0]);
             map.put("lng", latlngView.getText().toString().split(";")[1]);
         }

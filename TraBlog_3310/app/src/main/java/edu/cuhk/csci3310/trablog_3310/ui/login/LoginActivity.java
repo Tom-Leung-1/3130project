@@ -42,6 +42,8 @@ public class LoginActivity extends AppCompatActivity {
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     private String BASE_URL = "http://10.0.2.2:3001/";
+    //private String BASE_URL = "http://192.168.1.104:3001/";
+
     AnimationDrawable gradientAnimation;
 
     @Override
