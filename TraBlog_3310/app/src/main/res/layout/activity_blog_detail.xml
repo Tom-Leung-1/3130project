@@ -53,7 +53,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:textSize="18sp">
+                android:textSize="25sp">
             </TextView>
 
             <WebView
@@ -83,7 +83,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
                 android:layout_marginEnd="15dp"
-                android:textSize="15sp">
+                android:textSize="20sp">
             </TextView>
 
 
@@ -94,7 +94,7 @@
                 android:layout_marginTop="8dp"
                 android:layout_marginStart="15dp"
                 android:text="Replies"
-                android:textSize="20sp">
+                android:textSize="25sp">
             </TextView>
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/blog_recyclerview"
@@ -117,5 +117,20 @@
         android:outlineProvider="none"
         android:layout_margin="@dimen/fab_margin"
         app:srcCompat="@android:drawable/sym_action_chat" />
+
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/refreshDetail_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentBottom="true"
+        android:layout_alignParentRight="true"
+        android:layout_gravity="bottom|end"
+        app:backgroundTint="@color/colorSemiWhite"
+        android:backgroundTint="@color/colorTransparent"
+        android:outlineProvider="none"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="16dp"
+
+        app:srcCompat="@android:drawable/stat_notify_sync" />
 
 </RelativeLayout>

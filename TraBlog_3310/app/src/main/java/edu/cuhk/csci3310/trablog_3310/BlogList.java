@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.os.Handler;
 import android.view.View;
 import android.view.Menu;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -26,6 +27,7 @@ public class BlogList extends AppCompatActivity {
     private String username;
     private Integer id;
     private String email;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -66,7 +68,24 @@ public class BlogList extends AppCompatActivity {
         final TextView emailView = (TextView) headerView.findViewById(R.id.emailView);
         userNameView.setText(username);
         emailView.setText(email);
+
+        FloatingActionButton refresh_btn;
+        refresh_btn =  findViewById(R.id.refresh_fab);
+
+        refresh_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent (getApplicationContext(), BlogList.class);
+                intent.putExtra("id", id);
+                intent.putExtra("username", username);
+                intent.putExtra("email", email);
+                finish();
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
     }
+
 
     public Integer getUserID() {
         return id;

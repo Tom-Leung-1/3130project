@@ -62,7 +62,7 @@ public class MapsFragment extends Fragment {
                     == PackageManager.PERMISSION_GRANTED) {
 
                 locationManager = (LocationManager) getActivity().getSystemService(Context.LOCATION_SERVICE);
-                loc = locationManager.getLastKnownLocation(locationManager.getBestProvider(new Criteria(), true));
+                loc = locationManager.getLastKnownLocation(locationManager.getBestProvider(new Criteria(), false));
 
                 LatLng curLoc = new LatLng(loc.getLatitude(), loc.getLongitude());
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLoc, 15));

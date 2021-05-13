@@ -34,4 +34,18 @@
         android:outlineProvider="none"
         app:srcCompat="@android:drawable/ic_input_add" />
 
+    <com.google.android.material.floatingactionbutton.FloatingActionButton
+        android:id="@+id/refresh_fab"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="bottom|end"
+        android:layout_marginBottom="80dp"
+        android:layout_marginRight="16dp"
+
+        app:borderWidth="1dp"
+        android:backgroundTint="@color/colorTransparent"
+        app:backgroundTint="@color/colorSemiWhite"
+        android:outlineProvider="none"
+        app:srcCompat="@android:drawable/stat_notify_sync" />
+
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

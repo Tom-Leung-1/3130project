@@ -6,6 +6,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -29,6 +30,7 @@ import java.util.List;
 import edu.cuhk.csci3310.trablog_3310.Blog;
 import edu.cuhk.csci3310.trablog_3310.BlogDetail;
 import edu.cuhk.csci3310.trablog_3310.BlogList;
+import edu.cuhk.csci3310.trablog_3310.CreatePost;
 import edu.cuhk.csci3310.trablog_3310.LoginCredentials;
 import edu.cuhk.csci3310.trablog_3310.R;
 import edu.cuhk.csci3310.trablog_3310.ReplyPage;
@@ -50,14 +52,16 @@ public class HomeFragment extends Fragment {
     private LinkedList<Integer> idList = new java.util.LinkedList<>();
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
-    private String BASE_URL = "http://10.0.2.2:3001/";
+    private String BASE_URL = "https://api.yautz.com/";
+
+    //private String BASE_URL = "http://10.0.2.2:3001/";
     //private String BASE_URL = "http://192.168.1.104:3001/";
 
 
     private Integer id;
     private String username ;
     private String email;
-
+    Button refresh_btn;
     AnimationDrawable gradientAnimation;
 
     public View onCreateView(@NonNull LayoutInflater inflater,

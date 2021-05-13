@@ -45,7 +45,9 @@ public class BlogDetail extends AppCompatActivity {
     private FrameLayout mapView;
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
-    private String BASE_URL = "http://10.0.2.2:3001/";
+    private String BASE_URL = "https://api.yautz.com/";
+
+    //private String BASE_URL = "http://10.0.2.2:3001/";
     //private String BASE_URL = "http://192.168.1.104:3001/";
     private Integer postID;
     private Integer userID;
@@ -83,6 +85,8 @@ public class BlogDetail extends AppCompatActivity {
         blogDesc = findViewById(R.id.blog_detail_description);
         user = findViewById(R.id.blog_detail_user);
         imageWebView = findViewById(R.id.imageWebView);
+        imageWebView.setVisibility(View.GONE);
+
         Gson gson = new GsonBuilder()
                 .setLenient()
                 .create();
@@ -109,8 +113,6 @@ public class BlogDetail extends AppCompatActivity {
         FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
 
 
-
-
         Call<Blog> call = retrofitInterface.getOneBlog(postID);
         AppCompatActivity act = this;
         call.enqueue(new Callback<Blog>() { // async method: will call onResponse once the response is return, but before that the program ones other code
@@ -121,19 +123,18 @@ public class BlogDetail extends AppCompatActivity {
                     blogTitle.setText(blog.getTitle());
                     blogDesc.setText(blog.getDescription());
                     user.setText(blog.getUsername());
-                   // if(!Objects.isNull(blog.getImgFileName())){
-                        Log.d("img", "download");
-
-                    imageWebView.getSettings().setJavaScriptEnabled(true);
-                        //imageWebView.loadUrl("https://api.yautz.com/uploads/" + blog.getImgFileName());
-                    imageWebView.getSettings().setLoadWithOverviewMode(true);
-                    imageWebView.getSettings().setUseWideViewPort(true);
-                    imageWebView.loadUrl("https://api.yautz.com/uploads/file-1620835253318.jpg");
+                    if(blog.getImgFileName() != "none"){
+                        Log.d("img2", (String) blog.getImgFileName());
+                        imageWebView.setVisibility(View.VISIBLE);
+                        imageWebView.getSettings().setJavaScriptEnabled(true);
+                        imageWebView.loadUrl("https://api.yautz.com/uploads/" + blog.getImgFileName());
+                        imageWebView.getSettings().setLoadWithOverviewMode(true);
+                        imageWebView.getSettings().setUseWideViewPort(true);
+                    //imageWebView.loadUrl("https://api.yautz.com/uploads/file-1620835253318.jpg");
 
                     // imageWebView.loadUrl("http://10.0.2.2:3001/" + blog.getImgFileName());
                        // imageWebView.loadUrl("C:\\Users\\fung\\Desktop\\3310backend_tom\\travalfree\\uploads\\" + "file-1620915495127.jpg");
-
-                   // }
+                   }
 
                     if (!Objects.isNull(blog.getLat())) {
                         lat = blog.getLat();
@@ -157,7 +158,7 @@ public class BlogDetail extends AppCompatActivity {
             }
             @Override
             public void onFailure(Call<Blog> call, Throwable t) {
-                Toast.makeText(act, t.getMessage(), Toast.LENGTH_LONG).show();
+               // Toast.makeText(act, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -186,7 +187,23 @@ public class BlogDetail extends AppCompatActivity {
                 Toast.makeText(act, t.getMessage(), Toast.LENGTH_LONG).show();
             }
         });
+        FloatingActionButton refresh_btn;
+        refresh_btn =  findViewById(R.id.refreshDetail_fab);
 
+        refresh_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getApplication(), BlogDetail.class);
+                intent.putExtra("postID", postID);
+                intent.putExtra("userID", userID);
+                intent.putExtra("id", id);
+                intent.putExtra("username", username);
+                intent.putExtra("email", email);
+                finish();
+                startActivity(intent);
+                overridePendingTransition(0, 0);
+            }
+        });
 
     }
 

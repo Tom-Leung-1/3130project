@@ -32,6 +32,7 @@ import com.google.gson.GsonBuilder;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Base64;
 import java.util.HashMap;
 
 import okhttp3.MediaType;
@@ -74,12 +75,12 @@ public class CreatePost extends AppCompatActivity {
 
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
-    //private String LOCAL_BASE_URL = "https://api.yautz.com/";
+    private String LOCAL_BASE_URL = "https://api.yautz.com/";
     //private String LOCAL_BASE_URL = "http://192.168.1.129:3001/";
-    private String LOCAL_BASE_URL = "http://10.0.2.2:3001/";
+    //private String LOCAL_BASE_URL = "http://10.0.2.2:3001/";
     //private String LOCAL_BASE_URL = "http://192.168.1.104:3001/";
 
-    String iid = "-1";
+    String iid = "none";
 
     AnimationDrawable gradientAnimation;
 
@@ -172,8 +173,17 @@ public class CreatePost extends AppCompatActivity {
             public void onResponse(Call<ResponseBody> call, Response<ResponseBody> response) {
                 if(response.isSuccessful()) {
                     Toast.makeText(CreatePost.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
-                    Log.d("img", response.message());
-                    iid = response.message();
+
+                    try {
+                        Log.d("img","iid is assigned");
+                        iid = response.body().string().split(":")[1].split("\"")[1];
+                        Log.d("img",iid);
+
+                    } catch (IOException e) {
+                        Log.d("img","iid failed");
+
+                        e.printStackTrace();
+                    }
                 }
             }
             @Override
@@ -316,6 +326,7 @@ public class CreatePost extends AppCompatActivity {
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
         HashMap<String, String> map = new HashMap<>();
+
         map.put("title", finalTitle);
         map.put("description", finalDescription);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
@@ -323,7 +334,10 @@ public class CreatePost extends AppCompatActivity {
             map.put("lat", latlngView.getText().toString().split(";")[0]);
             map.put("lng", latlngView.getText().toString().split(";")[1]);
         }
-        map.put("imageId", iid);
+        if(iid == "none") {
+            map.put("img", iid);
+            Log.d("img", "iid != -1");
+        }
         map.put("user_id", String.valueOf(id));
 
         Call<Void> call = retrofitInterface.executeSubmitPost(map);
