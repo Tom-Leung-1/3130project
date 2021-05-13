@@ -32,4 +32,6 @@ public interface RetrofitInterface {
     @GET("/comment/getpostcomment")
     Call<ArrayList<Reply>> getComments(@Query("post_id") Integer id);
 
+    @POST("/user/update")
+    Call<Void> changeUserPassword(@Body HashMap<String, String> map);
 }
