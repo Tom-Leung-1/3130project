@@ -59,8 +59,12 @@ public class CreateAccount extends AppCompatActivity {
         signUpButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-//                signUp(email.getText().toString(), password.getText().toString(), userName.getText().toString());
-                handleSignUp();
+                if (password.getText().toString().length() < 8) {
+                    Toast.makeText(CreateAccount.this, "Your password is too short! Please make sure that you password length is at least 8.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    handleSignUp();
+                }
             }
         });
     }
