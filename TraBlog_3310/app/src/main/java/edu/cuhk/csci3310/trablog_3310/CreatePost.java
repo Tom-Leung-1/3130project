@@ -110,6 +110,7 @@ public class CreatePost extends AppCompatActivity {
                 if (cursor != null) {
                     cursor.moveToFirst();
                     int indexImage = cursor.getColumnIndex(imageProjection[0]);
+                    Log.d("debug", String.valueOf(indexImage));
                     //int indexImage = cursor.getColumnIndexOrThrow( imageProjection[0] );
                     cursor.moveToFirst();
 
@@ -144,6 +145,7 @@ public class CreatePost extends AppCompatActivity {
     // Upload the image to the remote database
 
     public void uploadImage() {
+        imagePath = "/storage/emulated/0/DCIM/Camera/IMG_20210512_231820.jpg";
         File imageFile = new File(imagePath);
         RequestBody reqBody = RequestBody.create(MediaType.parse("multipart/form-file"), imageFile);
         MultipartBody.Part partImage = MultipartBody.Part.createFormData("file", imageFile.getName(), reqBody);
