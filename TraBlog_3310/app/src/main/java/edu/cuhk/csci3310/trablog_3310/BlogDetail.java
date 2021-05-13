@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.Button;
 import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -37,7 +38,7 @@ public class BlogDetail extends AppCompatActivity {
     private LinkedList<String> commentList = new java.util.LinkedList<>();
     private TextView blogTitle;
     private TextView blogDesc;
-    private TextView user;
+    private Button user;
     private FrameLayout mapView;
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
