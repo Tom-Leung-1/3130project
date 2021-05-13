@@ -67,6 +67,9 @@ public class CreatePost extends AppCompatActivity {
     private Integer id;
     private String email;
 
+    private String finalTitle;
+    private String finalDescription;
+
     private Retrofit retrofit;
     private RetrofitInterface retrofitInterface;
     //private String LOCAL_BASE_URL = "https://api.yautz.com/";
@@ -233,9 +236,16 @@ public class CreatePost extends AppCompatActivity {
         send.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if(imagePath != "none")
-                    uploadImage();
-                submitPost();
+                finalTitle = titleInput.getText().toString().trim();
+                finalDescription = contentInput.getText().toString().trim();
+                if (finalTitle.length() == 0 || finalDescription.length() == 0) {
+                    Toast.makeText(CreatePost.this, "Title and Description cannot be empty! Please fill in the details.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    if(imagePath != "none")
+                        uploadImage();
+                    submitPost();
+                }
             }
         } );
 
@@ -279,8 +289,8 @@ public class CreatePost extends AppCompatActivity {
                 .build();
         retrofitInterface = retrofit.create(RetrofitInterface.class);
         HashMap<String, String> map = new HashMap<>();
-        map.put("title", titleInput.getText().toString());
-        map.put("description", contentInput.getText().toString());
+        map.put("title", finalTitle);
+        map.put("description", finalDescription);
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 == PackageManager.PERMISSION_GRANTED) {
             map.put("lat", latlngView.getText().toString().split(";")[0]);

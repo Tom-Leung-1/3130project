@@ -39,6 +39,8 @@ public class ReplyPage extends AppCompatActivity {
     private String username ;
     private String email;
 
+    private String finalReply;
+
     AnimationDrawable gradientAnimation;
 
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,12 +73,23 @@ public class ReplyPage extends AppCompatActivity {
 
         reply = findViewById(R.id.reply);
         submit = findViewById(R.id.submit_reply);
-        submit.setOnClickListener(v -> submitPost());
+        submit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                finalReply = reply.getText().toString().trim();
+                if (finalReply.length() == 0) {
+                    Toast.makeText(ReplyPage.this, "Reply cannot be empty! Please fill in the details.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    submitPost();
+                }
+            }
+        });
     }
 
     private void submitPost() {
         HashMap<String, String> map = new HashMap<>();
-        map.put("content", reply.getText().toString());
+        map.put("content", finalReply);
         map.put("post_id", postID.toString());
         map.put("user_id", userID.toString());
         Call<Void> call = retrofitInterface.createComment(map);

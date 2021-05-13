@@ -21,6 +21,7 @@ import java.util.HashMap;
 
 import edu.cuhk.csci3310.trablog_3310.AccountSetting;
 import edu.cuhk.csci3310.trablog_3310.BlogList;
+import edu.cuhk.csci3310.trablog_3310.CreateAccount;
 import edu.cuhk.csci3310.trablog_3310.R;
 import edu.cuhk.csci3310.trablog_3310.RetrofitInterface;
 import retrofit2.Call;
@@ -60,8 +61,14 @@ public class AccountFragment extends Fragment {
         submit = (Button) getView().findViewById(R.id.change_pw_btn);
         submit.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
-                changePassword();
+            public void onClick(View v)
+            {
+                if (newPW.getText().toString().length() < 8) {
+                    Toast.makeText(getActivity(), "Your password is too short! Please make sure that you password length is at least 8.", Toast.LENGTH_LONG).show();
+                }
+                else {
+                    changePassword();
+                }
             }
         });
         Gson gson = new GsonBuilder()
