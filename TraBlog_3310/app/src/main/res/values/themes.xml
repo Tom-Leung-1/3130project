@@ -22,4 +22,6 @@
     <style name="Theme.TraBlog_3310.AppBarOverlay" parent="ThemeOverlay.AppCompat.Dark.ActionBar" />
 
     <style name="Theme.TraBlog_3310.PopupOverlay" parent="ThemeOverlay.AppCompat.Light" />
+
+
 </resources>

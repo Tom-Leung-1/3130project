@@ -58,7 +58,7 @@ public class ReplyPage extends AppCompatActivity {
 
         ConstraintLayout myLayout = (ConstraintLayout) findViewById(R.id.reply_page);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
-        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setEnterFadeDuration(2000);
         gradientAnimation.setExitFadeDuration(5000);
         gradientAnimation.start();
 
