@@ -240,6 +240,7 @@ public class CreatePost extends AppCompatActivity {
         map.put("lat", latlngView.getText().toString().split(";")[0]);
         map.put("lng", latlngView.getText().toString().split(";")[1]);
         map.put("imageId", iid);
+        map.put("user_id", String.valueOf(id));
 
         Call<Void> call = retrofitInterface.executeSubmitPost(map);
         call.enqueue(new Callback<Void>() {

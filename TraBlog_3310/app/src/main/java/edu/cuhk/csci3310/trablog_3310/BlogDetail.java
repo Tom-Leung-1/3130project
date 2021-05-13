@@ -124,6 +124,7 @@ public class BlogDetail extends AppCompatActivity {
                     Blog blog = response.body();
                     blogTitle.setText(blog.getTitle());
                     blogDesc.setText(blog.getDescription());
+                    user.setText(blog.getUsername());
                     lat = blog.getLat();
                     lng = (double)114.23;
                     Log.d("latlng2", String.valueOf(lat));
@@ -135,7 +136,6 @@ public class BlogDetail extends AppCompatActivity {
                     mapFragment.setArguments(bundle);
                     transaction.replace(R.id.map_viewonly_container, mapFragment, "map");
                     transaction.commit();
-                    user.setText(blog.getUser());
                 }
                 else if (response.code() == 400){
                     Toast.makeText(act, "Blog error", Toast.LENGTH_LONG).show();
