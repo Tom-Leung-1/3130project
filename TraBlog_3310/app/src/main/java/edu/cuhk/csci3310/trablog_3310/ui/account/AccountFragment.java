@@ -53,7 +53,7 @@ public class AccountFragment extends Fragment {
 
         NestedScrollView myLayout = (NestedScrollView) getView().findViewById(R.id.change_account);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
-        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setEnterFadeDuration(2000);
         gradientAnimation.setExitFadeDuration(5000);
         gradientAnimation.start();
         oldPW = (EditText) getView().findViewById(R.id.old_password);

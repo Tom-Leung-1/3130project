@@ -71,7 +71,7 @@ public class BlogDetail extends AppCompatActivity {
         mapView = findViewById(R.id.map_viewonly_container);
         NestedScrollView myLayout = (NestedScrollView) findViewById(R.id.blog_details_scroll);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
-        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setEnterFadeDuration(2000);
         gradientAnimation.setExitFadeDuration(5000);
         gradientAnimation.start();
         blogTitle = findViewById(R.id.blog_detail_title);

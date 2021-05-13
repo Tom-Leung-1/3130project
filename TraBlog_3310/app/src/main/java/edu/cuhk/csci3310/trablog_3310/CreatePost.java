@@ -187,7 +187,7 @@ public class CreatePost extends AppCompatActivity {
         View decorView = getWindow().getDecorView();
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
-        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setEnterFadeDuration(2000);
         gradientAnimation.setExitFadeDuration(5000);
         gradientAnimation.start();
 

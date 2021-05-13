@@ -54,7 +54,7 @@ public class LoginActivity extends AppCompatActivity {
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
         ConstraintLayout myLayout = (ConstraintLayout) findViewById(R.id.container);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
-        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setEnterFadeDuration(2000);
         gradientAnimation.setExitFadeDuration(5000);
         gradientAnimation.start();
 

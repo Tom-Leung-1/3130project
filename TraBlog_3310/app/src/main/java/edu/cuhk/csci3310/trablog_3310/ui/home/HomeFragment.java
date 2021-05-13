@@ -74,7 +74,7 @@ public class HomeFragment extends Fragment {
 
         NestedScrollView myLayout = (NestedScrollView) getView().findViewById(R.id.home_fragment);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
-        gradientAnimation.setEnterFadeDuration(10);
+        gradientAnimation.setEnterFadeDuration(2000);
         gradientAnimation.setExitFadeDuration(5000);
         gradientAnimation.start();
 
