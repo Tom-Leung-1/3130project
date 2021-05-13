@@ -175,9 +175,9 @@ public class CreatePost extends AppCompatActivity {
                     Toast.makeText(CreatePost.this, "Image Uploaded", Toast.LENGTH_SHORT).show();
 
                     try {
-                        Log.d("img","iid is assigned");
+                        Log.d("imgtry","iid is assigned");
                         iid = response.body().string().split(":")[1].split("\"")[1];
-                        Log.d("img",iid);
+                        Log.d("imgtry",iid);
 
                     } catch (IOException e) {
                         Log.d("img","iid failed");
@@ -185,13 +185,14 @@ public class CreatePost extends AppCompatActivity {
                         e.printStackTrace();
                     }
                 }
+                submitPost();
             }
             @Override
             public void onFailure(Call<ResponseBody> call, Throwable t) {
-                Toast.makeText(CreatePost.this, "Request failed", Toast.LENGTH_SHORT).show();
+                submitPost();
+                Toast.makeText(CreatePost.this, "Imange upload failed!", Toast.LENGTH_SHORT).show();
             }
         });
-
     }
 
 
@@ -266,7 +267,8 @@ public class CreatePost extends AppCompatActivity {
                 else {
                     if(imagePath != "none" && isOpenImage)
                         uploadImage();
-                    submitPost();
+                    else
+                        submitPost();
                 }
             }
         } );
@@ -336,10 +338,12 @@ public class CreatePost extends AppCompatActivity {
         }
         if(iid == "none") {
             map.put("img", iid);
-            Log.d("img", "iid != -1");
+            Log.d("img", "iid != noen");
+            Log.d("img3inside if", iid);
+
         }
         map.put("user_id", String.valueOf(id));
-
+        Log.d("img3", iid);
         Call<Void> call = retrofitInterface.executeSubmitPost(map);
         call.enqueue(new Callback<Void>() {
             @Override
