@@ -47,11 +47,11 @@ public class MapsFragment extends Fragment {
          * user has installed Google Play services and returned to the app.
          */
 
-            if (! (ContextCompat.checkSelfPermission(getActivity(),
+            /*if (! (ContextCompat.checkSelfPermission(getActivity(),
                     Manifest.permission.ACCESS_FINE_LOCATION)
                     == PackageManager.PERMISSION_GRANTED)) {
                 requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
-            }
+            }*/
 
 
 

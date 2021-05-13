@@ -1,7 +1,9 @@
 package edu.cuhk.csci3310.trablog_3310;
 
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
@@ -19,6 +21,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.FrameLayout;
 import android.widget.ImageView;
 import android.widget.ScrollView;
 import android.widget.TextView;
@@ -185,20 +188,19 @@ public class CreatePost extends AppCompatActivity {
         gradientAnimation.setExitFadeDuration(5000);
         gradientAnimation.start();
 
-        FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
         Intent intent = getIntent(); // get the intent message which is the position
         id = intent.getIntExtra("id", 0);
         username = intent.getStringExtra("username");
         email = intent.getStringExtra("email");
-        mapFragment = new MapsFragment();
+        // mapFragment = new MapsFragment();
         /*
             Bundle bundle = new Bundle();
             bundle.putString("position", arr[0]);
             bundle.putString("show", arr[1]);
             mapFragment.setArguments(bundle);
          */
-        transaction.replace(R.id.map_container, mapFragment, "map");
-        transaction.commit();
+        // transaction.replace(R.id.map_container, mapFragment, "map");
+        // transaction.commit();
 
          titleInput = (EditText)findViewById(R.id.titleInput);
          contentInput = (EditText)findViewById(R.id.contentInput);
@@ -206,6 +208,20 @@ public class CreatePost extends AppCompatActivity {
          imageView = (ImageView) findViewById(R.id.photo);
          Button selPhoto = (Button) findViewById(R.id.select_photo);
          Button send = (Button) findViewById(R.id.submitBtn);
+         Button location = (Button) findViewById(R.id.locationBtn);
+
+        location.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (!(ContextCompat.checkSelfPermission(CreatePost.this, Manifest.permission.ACCESS_FINE_LOCATION)
+                        == PackageManager.PERMISSION_GRANTED)) {
+                    requestPermissions(new String[] {Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+                }
+                else {
+                    openMap();
+                }
+            }
+        });
 
         selPhoto.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -225,6 +241,34 @@ public class CreatePost extends AppCompatActivity {
 
     }
 
+    public void openMap() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            FrameLayout map = findViewById(R.id.map_container);
+            if (map.getVisibility() != View.VISIBLE) {
+                map.setVisibility(View.VISIBLE);
+                FragmentTransaction transaction = getSupportFragmentManager().beginTransaction();
+                mapFragment = new MapsFragment();
+                transaction.replace(R.id.map_container, mapFragment, "map");
+                transaction.commit();
+            }
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode,
+                                           @NonNull String[] permissions,
+                                           @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+
+        switch (requestCode) {
+
+            case 1:
+                openMap();
+                break;
+        }
+    }
+
     private void submitPost() {
         Gson gson = new GsonBuilder()
                 .setLenient()
@@ -237,8 +281,11 @@ public class CreatePost extends AppCompatActivity {
         HashMap<String, String> map = new HashMap<>();
         map.put("title", titleInput.getText().toString());
         map.put("description", contentInput.getText().toString());
-        map.put("lat", latlngView.getText().toString().split(";")[0]);
-        map.put("lng", latlngView.getText().toString().split(";")[1]);
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                == PackageManager.PERMISSION_GRANTED) {
+            map.put("lat", latlngView.getText().toString().split(";")[0]);
+            map.put("lng", latlngView.getText().toString().split(";")[1]);
+        }
         map.put("imageId", iid);
         map.put("user_id", String.valueOf(id));
 

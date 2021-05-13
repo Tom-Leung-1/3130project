@@ -5,6 +5,7 @@ import android.graphics.drawable.AnimationDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.FrameLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -21,6 +22,7 @@ import com.google.gson.GsonBuilder;
 
 import java.util.ArrayList;
 import java.util.LinkedList;
+import java.util.Objects;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -36,6 +38,7 @@ public class BlogDetail extends AppCompatActivity {
     private TextView blogTitle;
     private TextView blogDesc;
     private TextView user;
+    private FrameLayout mapView;
     private RetrofitInterface retrofitInterface;
     private Retrofit retrofit;
     private String BASE_URL = "http://10.0.2.2:3001/";
@@ -64,6 +67,7 @@ public class BlogDetail extends AppCompatActivity {
         decorView.setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN);
 
         setContentView(R.layout.activity_blog_detail);
+        mapView = findViewById(R.id.map_viewonly_container);
         NestedScrollView myLayout = (NestedScrollView) findViewById(R.id.blog_details_scroll);
         gradientAnimation = (AnimationDrawable) myLayout.getBackground();
         gradientAnimation.setEnterFadeDuration(10);
@@ -125,17 +129,18 @@ public class BlogDetail extends AppCompatActivity {
                     blogTitle.setText(blog.getTitle());
                     blogDesc.setText(blog.getDescription());
                     user.setText(blog.getUsername());
-                    lat = blog.getLat();
-                    lng = (double)114.23;
-                    Log.d("latlng2", String.valueOf(lat));
-                    MapsViewOnlyFragment mapFragment = new MapsViewOnlyFragment();
-                    Bundle bundle = new Bundle();
-                    bundle.putDouble("lat", lat);
-                    bundle.putDouble("lng", lng);
-
-                    mapFragment.setArguments(bundle);
-                    transaction.replace(R.id.map_viewonly_container, mapFragment, "map");
-                    transaction.commit();
+                    if (!Objects.isNull(blog.getLat())) {
+                        lat = blog.getLat();
+                        lng = blog.getLng();
+                        mapView.setVisibility(View.VISIBLE);
+                        MapsViewOnlyFragment mapFragment = new MapsViewOnlyFragment();
+                        Bundle bundle = new Bundle();
+                        bundle.putDouble("lat", lat);
+                        bundle.putDouble("lng", lng);
+                        mapFragment.setArguments(bundle);
+                        transaction.replace(R.id.map_viewonly_container, mapFragment, "map");
+                        transaction.commit();
+                    }
                 }
                 else if (response.code() == 400){
                     Toast.makeText(act, "Blog error", Toast.LENGTH_LONG).show();
