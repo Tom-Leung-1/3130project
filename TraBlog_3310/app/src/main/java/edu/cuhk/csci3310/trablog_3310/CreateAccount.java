@@ -22,7 +22,8 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
-
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 public class CreateAccount extends AppCompatActivity {
     private EditText email;
     private EditText password;
@@ -66,7 +67,14 @@ public class CreateAccount extends AppCompatActivity {
                     Toast.makeText(CreateAccount.this, "Your password is too short! Please make sure that you password length is at least 8.", Toast.LENGTH_LONG).show();
                 }
                 else {
-                    handleSignUp();
+                    Pattern pattern = Pattern.compile("^.+@.+\\..+$", Pattern.CASE_INSENSITIVE);
+                    Matcher matcher = pattern.matcher(email.getText().toString());
+                    boolean matchFound = matcher.find();
+                    if(matchFound) {
+                        handleSignUp();
+                    } else {
+                        Toast.makeText(CreateAccount.this, "Please provide a valid email address", Toast.LENGTH_LONG).show();
+                    }
                 }
             }
         });
