@@ -45,6 +45,9 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 
 public class CreatePost extends AppCompatActivity {
     Fragment mapFragment;
@@ -113,8 +116,14 @@ public class CreatePost extends AppCompatActivity {
 
         if (requestCode == PICK_IMAGE_REQUEST) {
             if (resultCode == Activity.RESULT_OK) {
-                selectedImage = data.getData();                                                         // Get the image file URI
-
+                selectedImage = data.getData();
+                Pattern pattern = Pattern.compile("google", Pattern.CASE_INSENSITIVE);
+                Matcher matcher = pattern.matcher(selectedImage.toString());
+                boolean matchFound = matcher.find();
+                if(matchFound) {
+                    Toast.makeText(CreatePost.this, "We do not support image upload from Goole Drive. Please reselect the image.", Toast.LENGTH_SHORT).show();
+                    return;
+                }// Get the image file URI
                 String[] imageProjection = {MediaStore.Images.Media.DATA};
 
                 Cursor cursor = getContentResolver().query(selectedImage, imageProjection, null, null, null);
