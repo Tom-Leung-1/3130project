@@ -67,7 +67,7 @@ public class MapsFragment extends Fragment {
                 LatLng curLoc = new LatLng(loc.getLatitude(), loc.getLongitude());
                 googleMap.moveCamera(CameraUpdateFactory.newLatLngZoom(curLoc, 15));
                 marker = googleMap.addMarker(new MarkerOptions().position(curLoc).title("Here!"));
-                ((TextView)getActivity().findViewById(R.id.latlng)).setText( Double.toString(loc.getLatitude()) +';'+ Double.toString(loc.getLatitude()));
+                ((TextView)getActivity().findViewById(R.id.latlng)).setText( Double.toString(loc.getLatitude()) +';'+ Double.toString(loc.getLongitude()));
 
             }else{
                 LatLng hk = new LatLng(22.302711, 114.177216);
@@ -85,7 +85,6 @@ public class MapsFragment extends Fragment {
         }
 
     };
-
 
 
     @Nullable

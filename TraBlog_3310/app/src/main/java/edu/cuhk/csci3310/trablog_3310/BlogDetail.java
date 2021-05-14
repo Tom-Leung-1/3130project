@@ -220,6 +220,7 @@ public class BlogDetail extends AppCompatActivity {
                             mAdapter = new ReplyListAdapter(BlogDetail.this, userList, commentList);
                             mRecyclerView.setAdapter(mAdapter);
                             mRecyclerView.setLayoutManager(new LinearLayoutManager(BlogDetail.this));
+                            Toast.makeText(act, "Replies are updated", Toast.LENGTH_LONG).show();
                         }
                         else if (response.code() == 400){
                             Toast.makeText(act, "Blog error", Toast.LENGTH_LONG).show();
